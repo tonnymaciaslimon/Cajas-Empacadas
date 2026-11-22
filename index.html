@@ -7,7 +7,7 @@
   <title>Control Individual de Empaque — Bell Pepper</title>
   <style>
     /* =====================================================================
-       1. VARIABLES Y ESTÉTICA OSCURA TIPO iOS (AZUL METÁLICO + VERDE LIMÓN)
+       1. VARIABLES Y ESTILO OSCURO TIPO iOS (AZUL METÁLICO + VERDE LIMÓN)
        ===================================================================== */
     :root {
       --bg-app: #090d14;
@@ -23,8 +23,8 @@
       --text-secondary: #b6c0d1;
       --text-muted: #7f899c;
 
-      --blue-metallic: linear-gradient(135deg, #1e40af 0%, #2b7fff 52%, #4ea8ff 100%);
-      --blue-metallic-dark: linear-gradient(180deg, #172c54 0%, #0e1c36 100%);
+      --blue-metallic: linear-gradient(135deg, #1d3f9e 0%, #2b7fff 52%, #4ea8ff 100%);
+      --blue-header-col: linear-gradient(180deg, #1b3663 0%, #11223d 100%);
       --blue-accent: #2b7fff;
       --blue-bright: #4ea8ff;
       --blue-soft: rgba(43, 127, 255, 0.16);
@@ -34,8 +34,8 @@
       --lime-main: #84cc16;
       --lime-bright: #a3e635;
       --lime-soft: rgba(163, 230, 53, 0.15);
-      --lime-border: rgba(163, 230, 53, 0.46);
-      --ink-on-lime: #0a1203;
+      --lime-border: rgba(163, 230, 53, 0.48);
+      --ink-on-lime: #091102;
 
       --danger-bg: rgba(239, 68, 68, 0.16);
       --danger-border: rgba(248, 113, 113, 0.45);
@@ -68,9 +68,9 @@
       overflow-x: clip;
     }
 
-    .app-shell {
+    .app-wrap {
       width: 100%;
-      max-width: 1680px;
+      max-width: 1640px;
       margin: 0 auto;
       padding: 14px;
       display: flex;
@@ -79,7 +79,7 @@
     }
 
     @media (min-width: 768px) {
-      .app-shell {
+      .app-wrap {
         padding: 22px;
         gap: 18px;
       }
@@ -100,830 +100,70 @@
     }
 
     /* =====================================================================
-       2. SECCIÓN SUPERIOR: EMPACADOR, EMPACADORA, SEMANA Y ACCIONES RÁPIDAS
+       2. TARJETA SUPERIOR COMPACTA: EMPACADOR, EMPACADORA Y BOTONES RÁPIDOS
        ===================================================================== */
-    .top-header-grid {
+    .top-bar {
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
 
     @media (min-width: 1024px) {
-      .top-header-grid {
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: space-between;
-      }
-    }
-
-    .badge-strip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .badge-blue {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 12px;
-      border-radius: 999px;
-      background: var(--blue-metallic);
-      color: #ffffff;
-      font-size: 11px;
-      font-weight: 850;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .badge-lime {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 12px;
-      border-radius: 999px;
-      background: var(--lime-grad);
-      color: var(--ink-on-lime);
-      font-size: 11px;
-      font-weight: 850;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(1.35rem, 2.5vw, 1.9rem);
-      font-weight: 900;
-      letter-spacing: -0.025em;
-      color: var(--text-primary);
-    }
-
-    .subtitle {
-      margin: 5px 0 0;
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.45;
-      max-width: 760px;
-    }
-
-    .quick-actions-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .identity-panel {
-      margin-top: 14px;
-      padding: 15px;
-      border-radius: var(--radius-lg);
-      background: linear-gradient(135deg, rgba(43, 127, 255, 0.16) 0%, var(--bg-elevated) 55%, rgba(163, 230, 53, 0.11) 100%);
-      border: 1px solid var(--blue-border);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .identity-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
-    @media (min-width: 640px) {
-      .identity-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .identity-grid {
-        grid-template-columns: 1.15fr 1.15fr 0.9fr 1.1fr;
-      }
-    }
-
-    .field-col {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .field-col label {
-      font-size: 11px;
-      font-weight: 850;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--blue-bright);
-    }
-
-    .ios-input {
-      width: 100%;
-      min-height: 42px;
-      background-color: var(--bg-input);
-      color: var(--text-primary);
-      border: 1px solid var(--border-medium);
-      border-radius: var(--radius-md);
-      padding: 8px 12px;
-      font-family: var(--font-ios);
-      font-size: 13px;
-      font-weight: 700;
-      outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .ios-input:focus {
-      border-color: var(--lime-bright);
-      box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.2);
-    }
-
-    .week-range-box {
-      min-height: 42px;
-      padding: 8px 12px;
-      border-radius: var(--radius-md);
-      background-color: var(--bg-input);
-      border: 1px solid var(--blue-border);
-      color: #e0f2fe;
-      font-size: 13px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .cycle-tag {
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: var(--lime-soft);
-      border: 1px solid var(--lime-border);
-      color: var(--lime-bright);
-      font-size: 10px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .identity-status-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 9px 12px;
-      border-radius: var(--radius-md);
-      background-color: var(--bg-app);
-      border: 1px solid var(--border-subtle);
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .identity-status-bar strong {
-      color: var(--lime-bright);
-    }
-
-    /* Confirmación inline de reinicio (nunca alert/confirm) */
-    .inline-confirm-bar {
-      display: none;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 10px;
-      padding: 11px 14px;
-      border-radius: var(--radius-md);
-      background-color: var(--danger-bg);
-      border: 1px solid var(--danger-border);
-      color: var(--danger-text);
-      font-size: 12px;
-      font-weight: 750;
-    }
-
-    .inline-confirm-bar.open {
-      display: flex;
-    }
-
-    /* =====================================================================
-       3. CATÁLOGO EDITABLE DE PRESENTACIONES (10 TARIFAS NORMAL + ALTAS)
-       ===================================================================== */
-    .catalog-section {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border-subtle);
-    }
-
-    .section-head {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      font-size: 15px;
-      font-weight: 850;
-      color: var(--text-primary);
-    }
-
-    .section-head p {
-      margin: 2px 0 0;
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .add-box-form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 12px;
-      padding: 10px 12px;
-      border-radius: var(--radius-md);
-      background-color: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-    }
-
-    .add-box-form input[type="text"] {
-      flex: 1 1 185px;
-      min-height: 38px;
-    }
-
-    .add-box-form input[type="number"] {
-      width: 130px;
-      min-height: 38px;
-    }
-
-    .catalog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
-      gap: 8px;
-    }
-
-    .cat-card {
-      background-color: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 8px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .cat-top {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .cat-label-input {
-      width: 100%;
-      background-color: var(--bg-input);
-      color: #ffffff;
-      border: 1px solid rgba(78, 168, 255, 0.35);
-      border-radius: 7px;
-      padding: 4px 7px;
-      font-family: var(--font-ios);
-      font-size: 12px;
-      font-weight: 800;
-      outline: none;
-    }
-
-    .cat-label-input:focus {
-      border-color: var(--lime-bright);
-    }
-
-    .cat-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-    }
-
-    .cat-rate-box {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      font-size: 12px;
-      font-weight: 900;
-      color: var(--lime-bright);
-    }
-
-    .cat-rate-input {
-      width: 78px;
-      background-color: var(--bg-input);
-      color: var(--lime-bright);
-      border: 1px solid var(--lime-border);
-      border-radius: 7px;
-      padding: 4px 6px;
-      font-family: var(--font-ios);
-      font-size: 12px;
-      font-weight: 900;
-      text-align: right;
-      outline: none;
-    }
-
-    .cat-rate-input:focus {
-      border-color: #ffffff;
-    }
-
-    .btn-del-cat {
-      appearance: none;
-      border: 1px solid var(--danger-border);
-      background-color: var(--danger-bg);
-      color: var(--danger-text);
-      border-radius: 7px;
-      padding: 3px 7px;
-      font-size: 11px;
-      font-weight: 850;
-      cursor: pointer;
-      line-height: 1.2;
-    }
-
-    /* =====================================================================
-       4. TABLA PRINCIPAL SUPERIOR: DÍAS A LA IZQUIERDA, CAJAS A LA DERECHA,
-          TOTAL DÍA Y ACUMULADO AL EXTREMO DERECHO, TOTALES AL PIE
-       ===================================================================== */
-    .filter-pills {
-      display: inline-flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .filter-pill {
-      appearance: none;
-      border: 1px solid var(--border-medium);
-      background-color: var(--bg-elevated);
-      color: var(--text-secondary);
-      border-radius: 999px;
-      padding: 5px 12px;
-      min-height: 32px;
-      font-family: var(--font-ios);
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .filter-pill.active {
-      background: var(--blue-metallic);
-      border-color: var(--blue-border);
-      color: #ffffff;
-    }
-
-    .table-scroll-wrap {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border-medium);
-      background-color: var(--bg-app);
-    }
-
-    table.prod-table {
-      width: 100%;
-      min-width: 1320px;
-      border-collapse: separate;
-      border-spacing: 0;
-      font-size: 13px;
-    }
-
-    table.prod-table th,
-    table.prod-table td {
-      border-bottom: 1px solid var(--border-subtle);
-      border-right: 1px solid var(--border-subtle);
-      padding: 8px 6px;
-      text-align: center;
-      vertical-align: middle;
-    }
-
-    table.prod-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    /* Izquierda fija: Día de la semana + fecha + estado trabajado */
-    .col-day-head {
-      position: sticky;
-      left: 0;
-      z-index: 4;
-      min-width: 162px;
-      background: var(--blue-metallic);
-      color: #ffffff;
-      font-weight: 900;
-      text-align: left !important;
-      padding-left: 12px !important;
-      box-shadow: 2px 0 9px rgba(0, 0, 0, 0.45);
-    }
-
-    .col-day-cell {
-      position: sticky;
-      left: 0;
-      z-index: 3;
-      background: linear-gradient(135deg, rgba(43, 127, 255, 0.24) 0%, var(--bg-card) 92%);
-      text-align: left !important;
-      padding-left: 12px !important;
-      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.38);
-    }
-
-    .day-row.worked-row .col-day-cell {
-      background: linear-gradient(135deg, rgba(43, 127, 255, 0.34) 0%, rgba(163, 230, 53, 0.12) 95%);
-    }
-
-    .day-title-row {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: var(--text-muted);
-      flex-shrink: 0;
-    }
-
-    .worked-row .status-dot {
-      background-color: var(--lime-bright);
-      box-shadow: 0 0 8px rgba(163, 230, 53, 0.7);
-    }
-
-    .day-name {
-      font-size: 13px;
-      font-weight: 850;
-      color: #ffffff;
-    }
-
-    .worked-tag {
-      margin-left: auto;
-      padding: 1px 6px;
-      border-radius: 999px;
-      font-size: 10px;
-      font-weight: 900;
-      background-color: rgba(127, 137, 156, 0.16);
-      color: var(--text-muted);
-    }
-
-    .worked-row .worked-tag {
-      background-color: var(--lime-soft);
-      border: 1px solid var(--lime-border);
-      color: var(--lime-bright);
-    }
-
-    .day-date-sub {
-      display: block;
-      margin-top: 2px;
-      padding-left: 15px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--blue-bright);
-    }
-
-    /* Encabezados de presentaciones (cajas a la derecha de cada día) */
-    .col-box-head {
-      min-width: 102px;
-      background: var(--blue-metallic-dark);
-      color: #f8fafc;
-      padding: 8px 5px !important;
-    }
-
-    .box-head-label {
-      display: block;
-      font-size: 11px;
-      font-weight: 850;
-      color: #e2e8f0;
-      line-height: 1.2;
-    }
-
-    .box-head-rate {
-      display: inline-block;
-      margin-top: 4px;
-      padding: 2px 7px;
-      border-radius: 999px;
-      background: var(--lime-grad);
-      color: var(--ink-on-lime);
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    /* Derecha fija: Total Día ($) y Acumulado ($) */
-    .col-right-head {
-      position: sticky;
-      right: 0;
-      z-index: 4;
-      min-width: 168px;
-      background: var(--lime-grad);
-      color: var(--ink-on-lime);
-      font-weight: 900;
-      font-size: 12px;
-      box-shadow: -2px 0 9px rgba(0, 0, 0, 0.48);
-    }
-
-    .col-right-cell {
-      position: sticky;
-      right: 0;
-      z-index: 3;
-      background: linear-gradient(135deg, rgba(132, 204, 22, 0.18) 0%, var(--bg-card) 92%);
-      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.38);
-    }
-
-    .worked-row .col-right-cell {
-      background: linear-gradient(135deg, rgba(132, 204, 22, 0.28) 0%, var(--bg-elevated) 92%);
-    }
-
-    .day-earned-main {
-      display: block;
-      font-size: 14px;
-      font-weight: 900;
-      color: var(--lime-bright);
-    }
-
-    .day-earned-sub {
-      display: block;
-      margin-top: 2px;
-      font-size: 10px;
-      font-weight: 750;
-      color: var(--text-secondary);
-    }
-
-    .day-cum-sub {
-      display: block;
-      margin-top: 2px;
-      font-size: 10px;
-      font-weight: 800;
-      color: var(--blue-bright);
-    }
-
-    /* Celdas de captura manual */
-    .td-box-input {
-      background-color: var(--bg-elevated);
-    }
-
-    .day-row:nth-child(even) .td-box-input {
-      background-color: var(--bg-row-alt);
-    }
-
-    .worked-row .td-box-input {
-      background-color: #1c283a;
-    }
-
-    .box-qty-input {
-      width: 84px;
-      height: 36px;
-      background-color: var(--bg-input);
-      color: #ffffff;
-      border: 1px solid rgba(78, 168, 255, 0.35);
-      border-radius: var(--radius-sm);
-      text-align: center;
-      font-family: var(--font-ios);
-      font-size: 14px;
-      font-weight: 800;
-      outline: none;
-      transition: border-color 0.14s ease, box-shadow 0.14s ease;
-    }
-
-    .box-qty-input::-webkit-outer-spin-button,
-    .box-qty-input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    .box-qty-input[type="number"] {
-      -moz-appearance: textfield;
-    }
-
-    .box-qty-input:focus {
-      border-color: var(--lime-bright);
-      box-shadow: 0 0 0 2px rgba(163, 230, 53, 0.25);
-    }
-
-    .box-qty-input.has-qty {
-      border-color: var(--lime-border);
-      background-color: var(--lime-soft);
-      color: var(--lime-bright);
-      font-weight: 900;
-    }
-
-    .cell-subtotal {
-      display: block;
-      margin-top: 3px;
-      font-size: 10px;
-      font-weight: 750;
-      color: var(--text-muted);
-    }
-
-    .cell-subtotal.has-amt {
-      color: #bef264;
-    }
-
-    /* Filas inferiores de totales de la tabla principal */
-    .foot-boxes-row td {
-      background-color: #161c26;
-      color: #e2e8f0;
-      font-weight: 850;
-      font-size: 12px;
-    }
-
-    .foot-boxes-row .col-day-cell {
-      background: linear-gradient(135deg, rgba(43, 127, 255, 0.32) 0%, #161c26 95%);
-      color: #bae6fd;
-    }
-
-    .foot-boxes-row .col-right-cell {
-      background: #161c26;
-      color: #bae6fd;
-    }
-
-    .foot-money-row td {
-      background-color: #192231;
-      color: #bef264;
-      font-weight: 850;
-      font-size: 12px;
-    }
-
-    .foot-money-row .col-day-cell {
-      background: linear-gradient(135deg, rgba(43, 127, 255, 0.38) 0%, #192231 95%);
-      color: #ffffff;
-    }
-
-    .foot-money-row .col-right-cell {
-      background: #192231;
-      color: var(--lime-bright);
-    }
-
-    .foot-grand-row td {
-      background-color: #1d2533;
-      color: var(--lime-bright);
-      font-weight: 900;
-      font-size: 13px;
-    }
-
-    .foot-grand-row .col-day-cell {
-      background: var(--blue-metallic);
-      color: #ffffff;
-    }
-
-    .foot-grand-row .col-right-cell {
-      background: var(--lime-grad);
-      color: var(--ink-on-lime);
-      font-size: 14px;
-    }
-
-    /* =====================================================================
-       5. SECCIÓN INFERIOR: RESÚMENES INDIVIDUALES Y RECIBO "GENERAR REPORTE"
-       ===================================================================== */
-    .bottom-section {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .packer-summary-banner {
-      background: linear-gradient(135deg, rgba(43, 127, 255, 0.2) 0%, var(--bg-card) 52%, rgba(163, 230, 53, 0.16) 100%);
-      border: 1px solid var(--lime-border);
-      border-radius: var(--radius-xl);
-      padding: 18px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .summary-banner-top {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    @media (min-width: 768px) {
-      .summary-banner-top {
+      .top-bar {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
       }
     }
 
-    .kicker-lime {
-      font-size: 11px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--lime-bright);
+    .brand-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
     }
 
-    .summary-identity-title {
-      margin-top: 4px;
-      font-size: 16px;
-      font-weight: 900;
-      color: #ffffff;
-    }
-
-    .summary-identity-sub {
-      margin-top: 2px;
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .kpi-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-    }
-
-    .kpi-tile {
-      background-color: var(--bg-app);
-      border: 1px solid var(--border-medium);
-      border-radius: var(--radius-md);
-      padding: 11px 14px;
-    }
-
-    .kpi-tile small {
-      display: block;
-      font-size: 10px;
-      font-weight: 850;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-    }
-
-    .kpi-tile strong {
-      display: block;
-      margin-top: 4px;
-      font-size: 16px;
-      font-weight: 900;
-      color: var(--text-primary);
-    }
-
-    .kpi-tile.highlight-lime {
-      background-color: var(--lime-soft);
-      border-color: var(--lime-border);
-    }
-
-    .kpi-tile.highlight-lime strong {
-      color: var(--lime-bright);
-      font-size: 20px;
-    }
-
-    .breakdowns-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    @media (min-width: 1024px) {
-      .breakdowns-grid {
-        grid-template-columns: 1fr 1.15fr;
-        align-items: start;
-      }
-    }
-
-    .mini-table-wrap {
-      width: 100%;
-      overflow-x: auto;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-subtle);
-      background-color: var(--bg-app);
-    }
-
-    table.summary-mini {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    table.summary-mini th,
-    table.summary-mini td {
-      padding: 9px 11px;
-      border-bottom: 1px solid var(--border-subtle);
-      text-align: left;
-    }
-
-    table.summary-mini th {
-      background: linear-gradient(90deg, rgba(43, 127, 255, 0.28) 0%, rgba(163, 230, 53, 0.18) 100%);
+    .pill-blue {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: var(--blue-metallic);
       color: #ffffff;
       font-size: 11px;
       font-weight: 850;
-      text-transform: uppercase;
       letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
-    table.summary-mini th.num,
-    table.summary-mini td.num {
-      text-align: right;
+    .pill-lime {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: var(--lime-grad);
+      color: var(--ink-on-lime);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
-    table.summary-mini tbody tr:last-child td {
-      border-bottom: none;
+    h1 {
+      margin: 0;
+      font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+      font-weight: 900;
+      letter-spacing: -0.025em;
     }
 
-    .txt-lime {
-      color: var(--lime-bright);
-      font-weight: 850;
+    .subtitle {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
     }
 
-    .txt-blue {
-      color: var(--blue-bright);
-      font-weight: 850;
-    }
-
-    .btn-group {
+    .action-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
@@ -936,10 +176,10 @@
       background-color: var(--bg-elevated);
       color: var(--text-primary);
       font-family: var(--font-ios);
-      font-size: 13px;
-      font-weight: 750;
-      padding: 9px 14px;
-      min-height: 38px;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 8px 13px;
+      min-height: 36px;
       border-radius: var(--radius-md);
       cursor: pointer;
       display: inline-flex;
@@ -957,201 +197,809 @@
       transform: scale(0.98);
     }
 
-    .ios-btn-lime {
-      background: var(--lime-grad);
-      color: var(--ink-on-lime);
-      border-color: var(--lime-border);
-      font-weight: 900;
-    }
-
     .ios-btn-blue {
       background: var(--blue-metallic);
-      color: #ffffff;
       border-color: var(--blue-border);
-      font-weight: 850;
+      color: #ffffff;
+    }
+
+    .ios-btn-lime {
+      background: var(--lime-grad);
+      border-color: var(--lime-border);
+      color: var(--ink-on-lime);
+      font-weight: 900;
     }
 
     .ios-btn-danger {
       background-color: var(--danger-bg);
-      color: var(--danger-text);
       border-color: var(--danger-border);
+      color: var(--danger-text);
     }
 
-    .ios-btn-sm {
-      min-height: 34px;
-      padding: 6px 12px;
-      font-size: 12px;
+    .compact-fields {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(43, 127, 255, 0.14) 0%, var(--bg-elevated) 55%, rgba(163, 230, 53, 0.08) 100%);
+      border: 1px solid var(--blue-border);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .compact-fields {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .compact-fields {
+        grid-template-columns: 1.2fr 1.2fr 0.85fr 1fr;
+      }
+    }
+
+    .field-box {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field-box label {
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--blue-bright);
+    }
+
+    .ios-input {
+      width: 100%;
+      min-height: 38px;
+      background-color: var(--bg-input);
+      color: var(--text-primary);
+      border: 1px solid var(--border-medium);
       border-radius: var(--radius-sm);
+      padding: 7px 11px;
+      font-family: var(--font-ios);
+      font-size: 13px;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    /* Recibo individual desplegable ("Generar Reporte") */
-    .receipt-panel {
-      margin-top: 14px;
+    .ios-input:focus {
+      border-color: var(--lime-bright);
+      box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.18);
+    }
+
+    .week-pill-display {
+      min-height: 38px;
+      padding: 7px 11px;
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-input);
+      border: 1px solid var(--blue-border);
+      color: #e0f2fe;
+      font-size: 12px;
+      font-weight: 850;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .week-pill-tag {
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--lime-soft);
+      border: 1px solid var(--lime-border);
+      color: var(--lime-bright);
+      font-size: 10px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    /* Confirmación inline de reinicio (sin alert/confirm nativos) */
+    .reset-confirm-box {
       display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      background-color: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger-text);
+      font-size: 12px;
+      font-weight: 750;
     }
 
-    .receipt-panel.open {
+    .reset-confirm-box.open {
+      display: flex;
+    }
+
+    /* Panel colapsable para editar tarifas o agregar presentaciones extras */
+    .extra-panel-wrap {
+      margin-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 10px;
+    }
+
+    .extra-panel-body {
+      display: none;
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: var(--radius-md);
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .extra-panel-body.open {
       display: block;
     }
 
-    .receipt-sheet {
-      max-width: 740px;
-      margin: 0 auto;
-      background-color: #0f1622;
-      border: 1px solid var(--blue-border);
-      border-radius: var(--radius-xl);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
-      overflow: hidden;
+    .add-extra-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
     }
 
-    .receipt-header {
-      background: var(--blue-metallic);
+    .add-extra-form input[type="text"] {
+      flex: 1 1 180px;
+    }
+
+    .add-extra-form input[type="number"] {
+      width: 135px;
+    }
+
+    .rates-editor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 8px;
+    }
+
+    .rate-edit-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .rate-edit-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rate-lbl-input {
+      width: 100%;
+      background-color: var(--bg-input);
       color: #ffffff;
-      padding: 16px 20px;
+      border: 1px solid var(--blue-border);
+      border-radius: 6px;
+      padding: 4px 7px;
+      font-family: var(--font-ios);
+      font-size: 12px;
+      font-weight: 800;
+      outline: none;
+    }
+
+    .rate-val-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 850;
+      color: var(--lime-bright);
+    }
+
+    .rate-num-input {
+      width: 78px;
+      background-color: var(--bg-input);
+      color: var(--lime-bright);
+      border: 1px solid var(--lime-border);
+      border-radius: 6px;
+      padding: 3px 6px;
+      font-family: var(--font-ios);
+      font-size: 12px;
+      font-weight: 900;
+      text-align: right;
+      outline: none;
+    }
+
+    .btn-mini-del {
+      appearance: none;
+      border: 1px solid var(--danger-border);
+      background-color: var(--danger-bg);
+      color: var(--danger-text);
+      border-radius: 6px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    /* =====================================================================
+       3. TABLA PRINCIPAL HORIZONTAL: DIAS EN PRIMERA COLUMNA VERTICAL
+          (MIERCOLES A MARTES), PRESENTACIONES + IMPORTE ARRIBA,
+          TOTAL DIARIO ($) A LA DERECHA E IMPORTE TOTAL ($) AL PIE
+       ===================================================================== */
+    .table-card-head {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+      margin-bottom: 12px;
     }
 
-    .receipt-header h3 {
+    .table-card-head h2 {
       margin: 0;
-      font-size: 16px;
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--text-primary);
+    }
+
+    .table-card-head p {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .date-toggle-pill {
+      appearance: none;
+      border: 1px solid var(--blue-border);
+      background-color: var(--bg-elevated);
+      color: var(--blue-bright);
+      border-radius: 999px;
+      padding: 5px 12px;
+      min-height: 34px;
+      font-family: var(--font-ios);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .date-toggle-pill.active {
+      background: var(--blue-metallic);
+      color: #ffffff;
+    }
+
+    .table-scroll-box {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-medium);
+      background-color: var(--bg-app);
+    }
+
+    table.sketch-table {
+      width: 100%;
+      min-width: 1040px;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13px;
+    }
+
+    table.sketch-table th,
+    table.sketch-table td {
+      border-bottom: 1px solid var(--border-subtle);
+      border-right: 1px solid var(--border-subtle);
+      padding: 8px 6px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    table.sketch-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Primera columna fija a la izquierda: DIAS (MIERCOLES a MARTES) */
+    .th-dias-left {
+      position: sticky;
+      left: 0;
+      z-index: 4;
+      min-width: 148px;
+      background: var(--blue-metallic);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-align: left !important;
+      padding-left: 12px !important;
+      box-shadow: 2px 0 9px rgba(0, 0, 0, 0.48);
+    }
+
+    .td-dia-left {
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: linear-gradient(135deg, rgba(43, 127, 255, 0.24) 0%, var(--bg-card) 92%);
+      text-align: left !important;
+      padding-left: 12px !important;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .day-row.has-data .td-dia-left {
+      background: linear-gradient(135deg, rgba(43, 127, 255, 0.34) 0%, rgba(163, 230, 53, 0.12) 95%);
+    }
+
+    .dia-line-top {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .dia-led {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .has-data .dia-led {
+      background-color: var(--lime-bright);
+      box-shadow: 0 0 8px rgba(163, 230, 53, 0.7);
+    }
+
+    .dia-nombre {
+      font-size: 13px;
+      font-weight: 900;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .dia-fecha {
+      display: block;
+      margin-top: 2px;
+      padding-left: 15px;
+      font-size: 11px;
+      font-weight: 750;
+      color: var(--blue-bright);
+    }
+
+    /* Encabezados superiores con presentación + importe unitario ($2.00, etc.) */
+    .th-prod-col {
+      min-width: 108px;
+      background: var(--blue-header-col);
+      color: #f8fafc;
+      padding: 8px 6px !important;
+    }
+
+    .th-prod-name {
+      display: block;
+      font-size: 11px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .th-prod-price {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--lime-grad);
+      color: var(--ink-on-lime);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    /* Última columna fija a la derecha: TOTAL DIARIO ($) */
+    .th-total-right {
+      position: sticky;
+      right: 0;
+      z-index: 4;
+      min-width: 146px;
+      background: var(--lime-grad);
+      color: var(--ink-on-lime);
+      font-size: 12px;
+      font-weight: 950;
+      text-transform: uppercase;
+      box-shadow: -2px 0 9px rgba(0, 0, 0, 0.5);
+    }
+
+    .td-total-right {
+      position: sticky;
+      right: 0;
+      z-index: 3;
+      background: linear-gradient(135deg, rgba(132, 204, 22, 0.16) 0%, var(--bg-card) 92%);
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.42);
+    }
+
+    .day-row.has-data .td-total-right {
+      background: linear-gradient(135deg, rgba(132, 204, 22, 0.28) 0%, var(--bg-elevated) 92%);
+    }
+
+    .total-dia-val {
+      display: block;
+      font-size: 15px;
+      font-weight: 950;
+      color: var(--lime-bright);
+    }
+
+    .total-dia-cajas {
+      display: block;
+      margin-top: 2px;
+      font-size: 10px;
+      font-weight: 750;
+      color: var(--text-secondary);
+    }
+
+    /* Celdas de captura manual */
+    .td-qty-cell {
+      background-color: var(--bg-elevated);
+    }
+
+    .day-row:nth-child(even) .td-qty-cell {
+      background-color: var(--bg-row-alt);
+    }
+
+    .day-row.has-data .td-qty-cell {
+      background-color: #1c293c;
+    }
+
+    .qty-num-input {
+      width: 86px;
+      height: 36px;
+      background-color: var(--bg-input);
+      color: #ffffff;
+      border: 1px solid rgba(78, 168, 255, 0.36);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-family: var(--font-ios);
+      font-size: 14px;
+      font-weight: 850;
+      outline: none;
+      transition: border-color 0.14s ease, box-shadow 0.14s ease;
+    }
+
+    .qty-num-input::-webkit-outer-spin-button,
+    .qty-num-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .qty-num-input[type="number"] {
+      -moz-appearance: textfield;
+    }
+
+    .qty-num-input:focus {
+      border-color: var(--lime-bright);
+      box-shadow: 0 0 0 2px rgba(163, 230, 53, 0.25);
+    }
+
+    .qty-num-input.filled {
+      border-color: var(--lime-border);
+      background-color: var(--lime-soft);
+      color: var(--lime-bright);
+      font-weight: 950;
+    }
+
+    .cell-mult-sub {
+      display: block;
+      margin-top: 3px;
+      font-size: 10px;
+      font-weight: 750;
+      color: var(--text-muted);
+    }
+
+    .cell-mult-sub.active {
+      color: #bef264;
+      font-weight: 850;
+    }
+
+    /* Fila de totales de cajas/piezas por columna */
+    .foot-boxes-row td {
+      background-color: #151c27;
+      color: #e2e8f0;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .foot-boxes-row .td-dia-left {
+      background: linear-gradient(135deg, rgba(43, 127, 255, 0.32) 0%, #151c27 95%);
+      color: #bae6fd;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+
+    .foot-boxes-row .td-total-right {
+      background: #151c27;
+      color: #bae6fd;
       font-weight: 900;
     }
 
-    .receipt-pill {
+    /* Fila final IMPORTE TOTAL $ (como en el dibujo) */
+    .foot-importe-total-row td {
+      background-color: #1b2433;
+      color: var(--lime-bright);
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .foot-importe-total-row .td-dia-left {
+      background: var(--blue-metallic);
+      color: #ffffff;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+    }
+
+    .foot-importe-total-row .td-total-right {
+      background: var(--lime-grad);
+      color: var(--ink-on-lime);
+      font-size: 15px;
+      font-weight: 950;
+    }
+
+    /* =====================================================================
+       4. PANEL DE RESÚMENES Y RECIBO / REPORTE INFERIOR
+       ===================================================================== */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 1024px) {
+      .summary-grid {
+        grid-template-columns: 1.05fr 1fr;
+        align-items: start;
+      }
+    }
+
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .kpi-box {
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 11px 13px;
+    }
+
+    .kpi-box small {
+      display: block;
+      font-size: 10px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .kpi-box strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 16px;
+      font-weight: 950;
+      color: var(--text-primary);
+    }
+
+    .kpi-box.accent-lime {
+      background-color: var(--lime-soft);
+      border-color: var(--lime-border);
+    }
+
+    .kpi-box.accent-lime strong {
+      color: var(--lime-bright);
+      font-size: 19px;
+    }
+
+    .mini-scroll {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-app);
+    }
+
+    table.mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    table.mini-table th,
+    table.mini-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-subtle);
+      text-align: left;
+    }
+
+    table.mini-table th {
+      background: linear-gradient(90deg, rgba(43, 127, 255, 0.28) 0%, rgba(163, 230, 53, 0.16) 100%);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    table.mini-table th.num,
+    table.mini-table td.num {
+      text-align: right;
+    }
+
+    table.mini-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .txt-lime {
+      color: var(--lime-bright);
+      font-weight: 900;
+    }
+
+    .txt-blue {
+      color: var(--blue-bright);
+      font-weight: 850;
+    }
+
+    /* Recibo / Reporte */
+    .report-card {
+      margin-top: 14px;
+      display: none;
+    }
+
+    .report-card.open {
+      display: block;
+    }
+
+    .receipt-box {
+      max-width: 760px;
+      margin: 0 auto;
+      background-color: #0e1520;
+      border: 1px solid var(--blue-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .receipt-top {
+      background: var(--blue-metallic);
+      color: #ffffff;
+      padding: 15px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .receipt-top h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 950;
+    }
+
+    .receipt-badge {
       padding: 3px 10px;
       border-radius: 999px;
       background: var(--lime-grad);
       color: var(--ink-on-lime);
-      font-size: 11px;
-      font-weight: 900;
+      font-size: 10px;
+      font-weight: 950;
       text-transform: uppercase;
     }
 
-    .receipt-meta-grid {
-      padding: 12px 20px;
+    .receipt-meta {
+      padding: 11px 18px;
       background-color: var(--bg-elevated);
       border-bottom: 1px solid var(--border-subtle);
       display: grid;
       grid-template-columns: 1fr;
-      gap: 6px;
+      gap: 5px;
       font-size: 12px;
       color: var(--text-secondary);
     }
 
     @media (min-width: 540px) {
-      .receipt-meta-grid {
+      .receipt-meta {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    .receipt-meta-grid strong {
+    .receipt-meta strong {
       color: var(--text-primary);
     }
 
-    .receipt-days-list {
-      padding: 8px 20px;
+    .receipt-rows {
+      padding: 6px 18px;
     }
 
-    .receipt-day-item {
+    .receipt-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 11px 0;
+      padding: 10px 0;
       border-bottom: 1px dashed var(--border-medium);
     }
 
-    .receipt-day-item:last-child {
+    .receipt-row:last-child {
       border-bottom: none;
     }
 
-    .receipt-day-left {
-      font-size: 14px;
-      font-weight: 850;
+    .receipt-left-day {
+      font-size: 13px;
+      font-weight: 900;
       color: var(--blue-bright);
     }
 
-    .receipt-day-sub {
+    .receipt-left-detail {
       display: block;
       margin-top: 2px;
       font-size: 11px;
       color: var(--text-muted);
     }
 
-    .receipt-day-right {
-      text-align: right;
+    .receipt-right-money {
       font-size: 15px;
-      font-weight: 900;
+      font-weight: 950;
       color: var(--lime-bright);
       white-space: nowrap;
     }
 
-    .receipt-boxes-summary {
-      padding: 12px 20px;
-      background-color: var(--bg-elevated);
-      border-top: 1px solid var(--border-subtle);
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .receipt-boxes-summary strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--blue-bright);
-    }
-
-    .receipt-grand-footer {
+    .receipt-bottom-total {
       background: linear-gradient(90deg, rgba(43, 127, 255, 0.16) 0%, rgba(163, 230, 53, 0.22) 100%);
       border-top: 2px solid var(--lime-border);
-      padding: 16px 20px;
+      padding: 15px 18px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .receipt-grand-label {
+    .receipt-total-label {
       font-size: 12px;
-      font-weight: 900;
+      font-weight: 950;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #f1f5f9;
+      letter-spacing: 0.04em;
+      color: #ffffff;
     }
 
-    .receipt-grand-sub {
+    .receipt-total-sub {
       display: block;
-      margin-top: 3px;
-      font-size: 12px;
-      font-weight: 600;
+      margin-top: 2px;
+      font-size: 11px;
+      font-weight: 650;
       color: var(--text-secondary);
       text-transform: none;
       letter-spacing: 0;
     }
 
-    .receipt-grand-amount {
-      font-size: 23px;
+    .receipt-total-amount {
+      font-size: 22px;
       font-weight: 950;
       color: var(--lime-bright);
     }
 
-    .receipt-actions-bar {
-      max-width: 740px;
-      margin: 12px auto 0;
+    .receipt-toolbar {
+      max-width: 760px;
+      margin: 10px auto 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .wa-box {
+    .wa-preview {
       margin-top: 12px;
       background-color: var(--bg-app);
       border: 1px solid var(--border-subtle);
@@ -1165,42 +1013,42 @@
       word-break: break-word;
     }
 
-    .status-toast {
+    .toast-bar {
       display: none;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 11px 15px;
+      padding: 10px 14px;
       border-radius: var(--radius-md);
-      font-size: 13px;
-      font-weight: 750;
+      font-size: 12px;
+      font-weight: 800;
       border: 1px solid var(--border-medium);
       background-color: var(--bg-elevated);
     }
 
-    .status-toast.show {
+    .toast-bar.show {
       display: flex;
     }
 
-    .status-toast.ok {
+    .toast-bar.ok {
       background-color: var(--lime-soft);
       border-color: var(--lime-border);
       color: #ecfccb;
     }
 
-    .status-toast.info {
+    .toast-bar.info {
       background-color: var(--blue-soft);
       border-color: var(--blue-border);
       color: #e0f2fe;
     }
 
-    .status-toast.err {
+    .toast-bar.err {
       background-color: var(--danger-bg);
       border-color: var(--danger-border);
       color: var(--danger-text);
     }
 
-    .sr-only-file {
+    .hidden-file {
       position: absolute;
       width: 1px;
       height: 1px;
@@ -1213,350 +1061,313 @@
         background: #ffffff !important;
         color: #111827 !important;
       }
-      .app-shell > header,
-      .app-shell > main,
-      .app-shell > .status-toast,
-      .bottom-section > .packer-summary-banner,
-      .bottom-section > .breakdowns-grid,
-      .bottom-section > .actions-card > .section-head,
-      .bottom-section > .actions-card > .wa-box,
-      .receipt-actions-bar {
+      .app-wrap > header,
+      .app-wrap > main,
+      .app-wrap > .toast-bar,
+      .app-wrap > .summary-grid,
+      .report-toolbar,
+      .wa-preview,
+      .report-section-head {
         display: none !important;
       }
-      .bottom-section > .actions-card.ios-card {
+      .report-section-card {
         border: none !important;
         box-shadow: none !important;
         background: #ffffff !important;
         padding: 0 !important;
       }
-      .receipt-panel.open {
+      .report-card.open {
         display: block !important;
-        margin-top: 0 !important;
       }
-      .receipt-sheet {
+      .receipt-box {
         max-width: 100% !important;
-        border: 1px solid #cbd5e1 !important;
         background: #ffffff !important;
         color: #111827 !important;
+        border: 1px solid #cbd5e1 !important;
         box-shadow: none !important;
       }
-      .receipt-header {
-        background: #1e40af !important;
+      .receipt-top {
+        background: #1d3f9e !important;
         color: #ffffff !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
-      .receipt-meta-grid,
-      .receipt-boxes-summary {
+      .receipt-meta {
         background: #f8fafc !important;
         color: #334155 !important;
       }
-      .receipt-meta-grid strong,
-      .receipt-boxes-summary strong,
-      .receipt-day-left,
-      .receipt-day-right,
-      .receipt-grand-label,
-      .receipt-grand-amount {
+      .receipt-meta strong,
+      .receipt-left-day,
+      .receipt-right-money,
+      .receipt-total-label,
+      .receipt-total-amount {
         color: #0f172a !important;
       }
-      .receipt-grand-footer {
+      .receipt-bottom-total {
         background: #f1f5f9 !important;
       }
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
+  <div class="app-wrap">
     <!-- ===================================================================
-         1. CABECERA SUPERIOR: EMPACADOR, EMPACADORA, SEMANA Y ACCIONES
+         1. TARJETA SUPERIOR COMPACTA: EMPACADOR, EMPACADORA Y BOTONES
          =================================================================== -->
     <header class="ios-card">
-      <div class="top-header-grid">
+      <div class="top-bar">
         <div>
-          <div class="badge-strip">
-            <span class="badge-blue">Bell Pepper · Tarifa NORMAL</span>
-            <span class="badge-lime">Control Individual · Mié a Mar</span>
+          <div class="brand-badges">
+            <span class="pill-blue">Bell Pepper · Individual</span>
+            <span class="pill-lime">Miércoles a Martes</span>
           </div>
-          <h1>Control Individual de Empaque — Bell Pepper</h1>
+          <h1>Control Individual de Empaque</h1>
           <p class="subtitle">
-            Registro individual por empacador en ciclo semanal de miércoles a martes: anota el nombre del empacador y de la empacadora, captura manualmente las cajas de cada presentación por día y consulta el total diario, acumulado y semanal.
+            Captura diaria de cajas por día (Miércoles a Martes) con multiplicación automática por el importe de cada columna y suma acumulada en tiempo real.
           </p>
         </div>
 
-        <div class="quick-actions-bar" aria-label="Acciones rápidas superiores">
-          <button type="button" id="top-wa-btn" class="ios-btn ios-btn-blue ios-btn-sm">Copiar WhatsApp</button>
-          <button type="button" id="top-report-btn" class="ios-btn ios-btn-lime ios-btn-sm">Generar Reporte</button>
-          <button type="button" id="save-json-btn" class="ios-btn ios-btn-sm">Respaldar JSON</button>
-          <button type="button" id="load-json-btn" class="ios-btn ios-btn-sm">Cargar JSON</button>
-          <input type="file" id="json-file-input" class="sr-only-file" accept=".json,application/json" />
-          <button type="button" id="ask-reset-btn" class="ios-btn ios-btn-danger ios-btn-sm">Reiniciar</button>
+        <div class="action-row" aria-label="Acciones rápidas">
+          <button type="button" id="gen-report-top-btn" class="ios-btn ios-btn-lime">Generar Reporte</button>
+          <button type="button" id="export-json-btn" class="ios-btn ios-btn-blue">Guardar / Respaldo JSON</button>
+          <button type="button" id="import-json-btn" class="ios-btn">Cargar JSON</button>
+          <input type="file" id="json-file-input" class="hidden-file" accept=".json,application/json" />
+          <button type="button" id="open-reset-btn" class="ios-btn ios-btn-danger">Reiniciar Semana</button>
         </div>
       </div>
 
-      <!-- Confirmación inline sin alert() ni confirm() -->
-      <div id="inline-confirm-bar" class="inline-confirm-bar" role="region" aria-label="Confirmar reinicio de semana">
-        <span>¿Reiniciar a cero todas las cajas capturadas de miércoles a martes para este empacador?</span>
-        <div class="btn-group">
-          <button type="button" id="cancel-inline-reset" class="ios-btn ios-btn-sm">Cancelar</button>
-          <button type="button" id="confirm-inline-reset" class="ios-btn ios-btn-danger ios-btn-sm">Sí, poner en 0</button>
+      <!-- Confirmación inline de reinicio en pantalla (sin alert/confirm) -->
+      <div id="reset-confirm-box" class="reset-confirm-box" role="region" aria-label="Confirmar reinicio de semana">
+        <span>¿Deseas poner en 0 todas las cajas de Miércoles a Martes para este empacador?</span>
+        <div class="action-row">
+          <button type="button" id="cancel-reset-btn" class="ios-btn">Cancelar</button>
+          <button type="button" id="confirm-reset-btn" class="ios-btn ios-btn-danger">Sí, reiniciar</button>
         </div>
       </div>
 
-      <!-- Datos individuales del empacador, empacadora y semana Miércoles–Martes -->
-      <div class="identity-panel">
-        <div class="identity-grid">
-          <div class="field-col">
-            <label for="packer-input">Nombre del Empacador</label>
-            <input
-              type="text"
-              id="packer-input"
-              class="ios-input"
-              maxlength="80"
-              placeholder="Ej. Luis Alberto Herrera"
-            />
-          </div>
-
-          <div class="field-col">
-            <label for="packinghouse-input">Nombre de la Empacadora</label>
-            <input
-              type="text"
-              id="packinghouse-input"
-              class="ios-input"
-              maxlength="80"
-              placeholder="Ej. Empacadora El Sol"
-            />
-          </div>
-
-          <div class="field-col">
-            <label for="week-start-input">Inicio de semana (Miércoles)</label>
-            <input type="date" id="week-start-input" class="ios-input" />
-          </div>
-
-          <div class="field-col">
-            <label>Semana (Miércoles a Martes)</label>
-            <div class="week-range-box">
-              <span id="week-range-label">—</span>
-              <span class="cycle-tag">Mié → Mar</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="identity-status-bar">
-          <span>
-            Empacador: <strong id="status-packer-name">Sin registrar</strong> ·
-            Empacadora: <strong id="status-packinghouse-name">Sin registrar</strong>
-          </span>
-          <span id="status-worked-count">Días trabajados: 0 de 7</span>
-        </div>
-      </div>
-
-      <!-- Catálogo editable de las 10 presentaciones NORMAL + agregar nuevas (ej. EURO) -->
-      <div class="catalog-section">
-        <div class="section-head">
-          <div>
-            <h2>Catálogo de Cajas y Tarifas NORMAL</h2>
-            <p>Las 10 tarifas NORMAL de Bell Pepper están cargadas; puedes editar su precio, renombrar o agregar presentaciones como EURO.</p>
-          </div>
-          <button type="button" id="reset-catalog-btn" class="ios-btn ios-btn-sm">Restaurar 10 Tarifas NORMAL</button>
-        </div>
-
-        <form id="add-box-form" class="add-box-form">
+      <!-- Registro individual del empacador, empacadora y fecha inicial opcional -->
+      <div class="compact-fields">
+        <div class="field-box">
+          <label for="packer-name-input">Nombre del Empacador</label>
           <input
             type="text"
-            id="new-box-name"
+            id="packer-name-input"
             class="ios-input"
-            maxlength="32"
-            placeholder="Nueva presentación (ej. EURO, 11#...)"
+            maxlength="80"
+            placeholder="Ej. Carlos Mendoza"
           />
-          <input
-            type="number"
-            id="new-box-rate"
-            class="ios-input"
-            min="0"
-            step="any"
-            placeholder="Costo ($)"
-          />
-          <button type="submit" class="ios-btn ios-btn-blue ios-btn-sm">+ Agregar Caja</button>
-        </form>
+        </div>
 
-        <div id="catalog-grid" class="catalog-grid"></div>
+        <div class="field-box">
+          <label for="packinghouse-name-input">Nombre de la Empacadora</label>
+          <input
+            type="text"
+            id="packinghouse-name-input"
+            class="ios-input"
+            maxlength="80"
+            placeholder="Ej. Empacadora Valle Verde"
+          />
+        </div>
+
+        <div class="field-box">
+          <label for="start-date-input">Fecha inicial opcional (Miércoles)</label>
+          <input type="date" id="start-date-input" class="ios-input" />
+        </div>
+
+        <div class="field-box">
+          <label>Ciclo Semanal</label>
+          <div class="week-pill-display">
+            <span id="week-range-text">—</span>
+            <span class="week-pill-tag">MIÉ → MAR</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel colapsable para editar tarifas o agregar presentaciones extras -->
+      <div class="extra-panel-wrap">
+        <button type="button" id="toggle-extra-panel-btn" class="ios-btn">
+          Editar tarifas o agregar presentaciones extras (ESTIBAR, CARGA TRAILER, EURO)
+        </button>
+
+        <div id="extra-panel-body" class="extra-panel-body">
+          <div class="table-card-head" style="margin-bottom:8px;">
+            <div>
+              <h2 style="font-size:13px;">Tarifas Unitarias y Presentaciones</h2>
+              <p style="font-size:11px;">Base del dibujo: 25 LIBRAS ($2.00), 15 LIBRAS ($1.50), 5 LIBRAS ($0.50), RPC ($2.50), BOLSA 8/6 ($2.20), BOLSA 20/4 ($3.50), BOLSA 10/4 ($1.50).</p>
+            </div>
+            <button type="button" id="restore-sketch-btn" class="ios-btn">Restaurar Base del Dibujo</button>
+          </div>
+
+          <form id="add-extra-box-form" class="add-extra-form">
+            <input
+              type="text"
+              id="extra-box-label"
+              class="ios-input"
+              maxlength="32"
+              placeholder="Nueva presentación (ej. ESTIBAR 25#, CARGA TRAILER, EURO)"
+            />
+            <input
+              type="number"
+              id="extra-box-price"
+              class="ios-input"
+              min="0"
+              step="any"
+              placeholder="Importe ($)"
+            />
+            <button type="submit" class="ios-btn ios-btn-blue">+ Agregar</button>
+          </form>
+
+          <div id="rates-editor-grid" class="rates-editor-grid"></div>
+        </div>
       </div>
     </header>
 
     <!-- ===================================================================
-         2. TABLA PRINCIPAL SUPERIOR: DÍAS A LA IZQUIERDA, CAJAS A LA DERECHA,
-            TOTAL DÍA Y ACUMULADO AL EXTREMO DERECHO, TOTALES AL PIE
+         2. TABLA PRINCIPAL HORIZONTAL: DIAS EN COLUMNA IZQUIERDA (MIÉ A MAR),
+            CAJAS POR COLUMNA CON SU IMPORTE ARRIBA, TOTAL DIARIO ($) A LA
+            DERECHA E IMPORTE TOTAL ($) AL PIE
          =================================================================== -->
-    <main class="ios-card" aria-label="Tabla principal de producción diaria">
-      <div class="section-head">
+    <main class="ios-card" aria-label="Tabla principal de captura de cajas por día">
+      <div class="table-card-head">
         <div>
-          <h2>Captura Manual por Día y Tipo de Caja (Miércoles a Martes)</h2>
-          <p>Días trabajados a la izquierda · Cajas por presentación a la derecha · Multiplicación automática por tarifa y Total Día / Acumulado al final.</p>
+          <h2>Tabla de Captura Diaria (Miércoles a Martes)</h2>
+          <p>Escribe las cajas empacadas en cada celda vacía: se multiplican por el importe de arriba, calculan el <strong>TOTAL DIARIO ($)</strong> a la derecha y acumulan el <strong>IMPORTE TOTAL ($)</strong> al pie.</p>
         </div>
-
-        <div class="filter-pills" role="group" aria-label="Filtrar días">
-          <button type="button" class="filter-pill active" data-filter="all">Todos los días (7)</button>
-          <button type="button" class="filter-pill" data-filter="worked">Solo días trabajados</button>
-        </div>
+        <button type="button" id="toggle-dates-btn" class="date-toggle-pill active">Mostrar fechas: Sí</button>
       </div>
 
-      <div class="table-scroll-wrap">
-        <table class="prod-table" id="prod-table">
-          <thead id="prod-thead"></thead>
-          <tbody id="prod-tbody"></tbody>
-          <tfoot id="prod-tfoot"></tfoot>
+      <div class="table-scroll-box">
+        <table class="sketch-table" id="sketch-table">
+          <thead id="sketch-thead"></thead>
+          <tbody id="sketch-tbody"></tbody>
+          <tfoot id="sketch-tfoot"></tfoot>
         </table>
       </div>
     </main>
 
-    <!-- Toast de estado en pantalla -->
-    <div id="status-toast" class="status-toast" role="status" aria-live="polite">
-      <span id="status-toast-msg"></span>
-      <button type="button" id="close-toast-btn" class="ios-btn ios-btn-sm">Cerrar</button>
+    <!-- Aviso en pantalla -->
+    <div id="toast-bar" class="toast-bar" role="status" aria-live="polite">
+      <span id="toast-text"></span>
+      <button type="button" id="close-toast-btn" class="ios-btn">Cerrar</button>
     </div>
 
     <!-- ===================================================================
-         3. PARTE INFERIOR: RESÚMENES INDIVIDUALES Y RECIBO "GENERAR REPORTE"
+         3. PANEL DE RESÚMENES DEBAJO DE LA TABLA PRINCIPAL
          =================================================================== -->
-    <section class="bottom-section" aria-label="Resumen individual del empacador y recibo">
-      <!-- Resumen superior del bloque inferior -->
-      <div class="packer-summary-banner">
-        <div class="summary-banner-top">
+    <section class="summary-grid" aria-label="Resúmenes de producción y ganancias">
+      <div class="ios-card">
+        <div class="table-card-head">
           <div>
-            <div class="kicker-lime">Resumen Individual del Empacador</div>
-            <div class="summary-identity-title" id="summary-heading">Empacador: Sin registrar · Empacadora: Sin registrar</div>
-            <div class="summary-identity-sub" id="summary-period-sub">Período Miércoles–Martes: —</div>
+            <h2>Resumen Diario y Acumulado Progresivo</h2>
+            <p id="summary-emp-line">Empacador: Sin registrar · Empacadora: Sin registrar</p>
           </div>
-          <button type="button" id="open-receipt-top-btn" class="ios-btn ios-btn-lime">Generar Reporte</button>
         </div>
 
-        <div class="kpi-row">
-          <div class="kpi-tile">
-            <small>Empacador</small>
-            <strong id="kpi-packer">—</strong>
-          </div>
-          <div class="kpi-tile">
-            <small>Empacadora</small>
-            <strong id="kpi-packinghouse">—</strong>
-          </div>
-          <div class="kpi-tile">
-            <small>Días Trabajados</small>
-            <strong id="kpi-worked-days">0 días</strong>
-          </div>
-          <div class="kpi-tile">
-            <small>Total Cajas</small>
+        <div class="kpi-strip">
+          <div class="kpi-box">
+            <small>Total Cajas Empacadas</small>
             <strong id="kpi-total-boxes">0</strong>
           </div>
-          <div class="kpi-tile highlight-lime">
-            <small>Gran Total Semana</small>
-            <strong id="kpi-grand-total">$0.00</strong>
+          <div class="kpi-box">
+            <small>Días Trabajados</small>
+            <strong id="kpi-worked-days">0 / 7</strong>
           </div>
+          <div class="kpi-box accent-lime">
+            <small>Importe Total Semana</small>
+            <strong id="kpi-week-total">$0.00</strong>
+          </div>
+        </div>
+
+        <div class="mini-scroll">
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Día</th>
+                <th class="num">Cajas</th>
+                <th class="num">Ganancia Día</th>
+                <th class="num">Acumulado</th>
+              </tr>
+            </thead>
+            <tbody id="daily-summary-tbody"></tbody>
+          </table>
         </div>
       </div>
 
-      <!-- Desglose por día trabajado y por presentación de caja -->
-      <div class="breakdowns-grid">
-        <div class="ios-card">
-          <div class="section-head">
-            <div>
-              <h2>Resumen por Día (Miércoles a Martes)</h2>
-              <p>Cajas, importe ganado diario y acumulado individual.</p>
-            </div>
-          </div>
-          <div class="mini-table-wrap">
-            <table class="summary-mini">
-              <thead>
-                <tr>
-                  <th>Día / Fecha</th>
-                  <th class="num">Cajas</th>
-                  <th class="num">Ganancia Día</th>
-                  <th class="num">Acumulado</th>
-                </tr>
-              </thead>
-              <tbody id="summary-days-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="ios-card">
-          <div class="section-head">
-            <div>
-              <h2>Resumen por Tipo de Caja</h2>
-              <p>Cajas acumuladas e importe generado por presentación en la semana.</p>
-            </div>
-          </div>
-          <div class="mini-table-wrap">
-            <table class="summary-mini">
-              <thead>
-                <tr>
-                  <th>Presentación</th>
-                  <th class="num">Costo</th>
-                  <th class="num">Cajas</th>
-                  <th class="num">Total ($)</th>
-                </tr>
-              </thead>
-              <tbody id="summary-boxes-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Recibo individual ("Generar Reporte") y acciones -->
-      <div class="ios-card actions-card">
-        <div class="section-head">
+      <div class="ios-card">
+        <div class="table-card-head">
           <div>
-            <h2>Recibo Individual y Exportación</h2>
-            <p>Genera el recibo con los días trabajados a la izquierda, lo ganado a la derecha y el total semanal al final.</p>
-          </div>
-          <div class="btn-group">
-            <button type="button" id="gen-receipt-btn" class="ios-btn ios-btn-lime">Generar Reporte</button>
-            <button type="button" id="copy-wa-btn" class="ios-btn ios-btn-blue">Copiar WhatsApp</button>
-            <button type="button" id="print-sheet-btn" class="ios-btn">Imprimir / PDF</button>
+            <h2>Desglose por Presentación</h2>
+            <p>Total de cajas e importe acumulado por columna en la semana.</p>
           </div>
         </div>
 
-        <div id="receipt-panel" class="receipt-panel" aria-live="polite">
-          <div class="receipt-sheet" id="receipt-sheet">
-            <div class="receipt-header">
-              <div>
-                <h3>RECIBO INDIVIDUAL DE EMPAQUE · BELL PEPPER</h3>
-                <div style="font-size:12px;opacity:0.92;margin-top:2px;">Tarifa NORMAL · Semana Miércoles a Martes</div>
-              </div>
-              <span class="receipt-pill">Reporte Individual</span>
-            </div>
-
-            <div class="receipt-meta-grid">
-              <div><strong>Empacador:</strong> <span id="rcp-packer-val">No especificado</span></div>
-              <div><strong>Empacadora:</strong> <span id="rcp-packinghouse-val">No especificada</span></div>
-              <div><strong>Semana (Mié–Mar):</strong> <span id="rcp-week-val">—</span></div>
-              <div><strong>Emitido:</strong> <span id="rcp-issued-val">—</span></div>
-            </div>
-
-            <div class="receipt-days-list" id="rcp-days-list"></div>
-
-            <div class="receipt-boxes-summary">
-              <strong>Desglose de Cajas en la Semana</strong>
-              <span id="rcp-boxes-detail">Sin cajas registradas en la semana.</span>
-            </div>
-
-            <div class="receipt-grand-footer">
-              <div class="receipt-grand-label">
-                TOTAL GANADO AL FINAL DE LA SEMANA
-                <span class="receipt-grand-sub" id="rcp-boxes-count-sub">Total cajas: 0 · Días trabajados: 0</span>
-              </div>
-              <div class="receipt-grand-amount" id="rcp-grand-total-val">$0.00</div>
-            </div>
-          </div>
-
-          <div class="receipt-actions-bar">
-            <button type="button" id="copy-receipt-btn" class="ios-btn ios-btn-blue ios-btn-sm">Copiar Recibo</button>
-            <button type="button" id="print-receipt-btn" class="ios-btn ios-btn-sm">Imprimir / Guardar PDF</button>
-            <button type="button" id="hide-receipt-btn" class="ios-btn ios-btn-sm">Ocultar Recibo</button>
-          </div>
+        <div class="mini-scroll">
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Presentación</th>
+                <th class="num">Importe</th>
+                <th class="num">Cajas</th>
+                <th class="num">Subtotal ($)</th>
+              </tr>
+            </thead>
+            <tbody id="product-summary-tbody"></tbody>
+          </table>
         </div>
-
-        <div id="wa-box" class="wa-box"></div>
       </div>
+    </section>
+
+    <!-- ===================================================================
+         4. SECCIÓN DE RECIBO / REPORTE ("GENERAR REPORTE")
+         =================================================================== -->
+    <section class="ios-card report-section-card" aria-label="Recibo o reporte semanal">
+      <div class="table-card-head report-section-head">
+        <div>
+          <h2>Recibo / Reporte Semanal</h2>
+          <p>Pulsa <strong>Generar Reporte</strong> para armar o actualizar el recibo con cada día trabajado a la izquierda, su ganancia a la derecha y el importe total semanal al final.</p>
+        </div>
+        <div class="action-row">
+          <button type="button" id="gen-report-bottom-btn" class="ios-btn ios-btn-lime">Generar Reporte</button>
+          <button type="button" id="copy-wa-summary-btn" class="ios-btn ios-btn-blue">Copiar WhatsApp</button>
+        </div>
+      </div>
+
+      <div id="report-card" class="report-card" aria-live="polite">
+        <div class="receipt-box" id="receipt-box">
+          <div class="receipt-top">
+            <div>
+              <h3>RECIBO SEMANAL DE EMPAQUE · BELL PEPPER</h3>
+              <div style="font-size:11px;opacity:0.92;margin-top:2px;">Control Individual · Miércoles a Martes</div>
+            </div>
+            <span class="receipt-badge">Reporte Generado</span>
+          </div>
+
+          <div class="receipt-meta">
+            <div><strong>Empacador:</strong> <span id="rcp-packer">No especificado</span></div>
+            <div><strong>Empacadora:</strong> <span id="rcp-packinghouse">No especificada</span></div>
+            <div><strong>Semana:</strong> <span id="rcp-week">—</span></div>
+            <div><strong>Fecha de emisión:</strong> <span id="rcp-issued">—</span></div>
+          </div>
+
+          <div class="receipt-rows" id="rcp-days-container"></div>
+
+          <div class="receipt-bottom-total">
+            <div class="receipt-total-label">
+              IMPORTE TOTAL GANADO EN LA SEMANA
+              <span class="receipt-total-sub" id="rcp-counts-line">Cajas empacadas: 0 · Días trabajados: 0</span>
+            </div>
+            <div class="receipt-total-amount" id="rcp-grand-total">$0.00</div>
+          </div>
+        </div>
+
+        <div class="receipt-toolbar">
+          <button type="button" id="copy-receipt-btn" class="ios-btn ios-btn-blue">Copiar Recibo (WhatsApp / Texto)</button>
+          <button type="button" id="print-receipt-btn" class="ios-btn">Imprimir / PDF</button>
+          <button type="button" id="hide-report-btn" class="ios-btn">Ocultar</button>
+        </div>
+      </div>
+
+      <div id="wa-preview" class="wa-preview"></div>
     </section>
   </div>
 
@@ -1565,85 +1376,82 @@
       'use strict';
 
       /* =====================================================================
-         CONSTANTES: 10 PRESENTACIONES NORMAL + SEMANA MIÉRCOLES A MARTES
+         CONFIGURACIÓN BASE: PRESENTACIONES DEL DIBUJO + DÍAS MIÉ A MAR
          ===================================================================== */
-      var STORAGE_KEY = 'bell_pepper_individual_prod_v2';
+      var STORAGE_KEY = 'bell_pepper_sketch_table_v1';
 
-      var DEFAULT_BOXES = [
-        { id: '25lb',          label: '25#',           rate: 2.00 },
-        { id: '15lb',          label: '15#',           rate: 1.50 },
-        { id: '5lb',           label: '5#',            rate: 0.50 },
-        { id: 'rpc',           label: 'RPC',           rate: 2.50 },
-        { id: 'bolsa_8_6',     label: 'BOLSA 8/6',     rate: 2.20 },
-        { id: 'bolsa_20_4',    label: 'BOLSA 20/4',    rate: 3.50 },
-        { id: 'bolsa_10_4',    label: 'BOLSA 10/4',    rate: 1.50 },
-        { id: 'estibar_25lb',  label: 'ESTIBAR 25#',   rate: 0.24 },
-        { id: 'estibar_15lb',  label: 'ESTIBAR 15#',   rate: 0.20 },
-        { id: 'carga_trailer', label: 'CARGA TRAILER', rate: 170.00 }
+      var SKETCH_PRODUCTS = [
+        { id: '25_libras',  label: '25 LIBRAS',  price: 2.00 },
+        { id: '15_libras',  label: '15 LIBRAS',  price: 1.50 },
+        { id: '5_libras',   label: '5 LIBRAS',   price: 0.50 },
+        { id: 'rpc',        label: 'RPC',        price: 2.50 },
+        { id: 'bolsa_8_6',  label: 'BOLSA 8/6',  price: 2.20 },
+        { id: 'bolsa_20_4', label: 'BOLSA 20/4', price: 3.50 },
+        { id: 'bolsa_10_4', label: 'BOLSA 10/4', price: 1.50 }
       ];
 
-      var DAYS_CYCLE = [
-        { key: 'miercoles', name: 'Miércoles', shortName: 'Mié', offset: 0 },
-        { key: 'jueves',    name: 'Jueves',    shortName: 'Jue', offset: 1 },
-        { key: 'viernes',   name: 'Viernes',   shortName: 'Vie', offset: 2 },
-        { key: 'sabado',    name: 'Sábado',    shortName: 'Sáb', offset: 3 },
-        { key: 'domingo',   name: 'Domingo',   shortName: 'Dom', offset: 4 },
-        { key: 'lunes',     name: 'Lunes',     shortName: 'Lun', offset: 5 },
-        { key: 'martes',    name: 'Martes',    shortName: 'Mar', offset: 6 }
+      var WEEK_DAYS = [
+        { key: 'miercoles', label: 'MIERCOLES', offset: 0 },
+        { key: 'jueves',    label: 'JUEVES',    offset: 1 },
+        { key: 'viernes',   label: 'VIERNES',   offset: 2 },
+        { key: 'sabado',    label: 'SABADO',    offset: 3 },
+        { key: 'domingo',   label: 'DOMINGO',   offset: 4 },
+        { key: 'lunes',     label: 'LUNES',     offset: 5 },
+        { key: 'martes',    label: 'MARTES',    offset: 6 }
       ];
 
-      function cloneDefaultBoxes() {
-        return DEFAULT_BOXES.map(function (b) {
-          return { id: b.id, label: b.label, rate: b.rate };
+      function cloneSketchProducts() {
+        return SKETCH_PRODUCTS.map(function (item) {
+          return { id: item.id, label: item.label, price: item.price };
         });
       }
 
       /* =====================================================================
-         UTILIDADES DE FECHA LOCAL, NÚMEROS Y TEXTO
+         UTILIDADES DE FECHA LOCAL, FORMATO Y SEGURIDAD DE CADENAS
          ===================================================================== */
-      function toISO(dt) {
+      function toLocalISO(dt) {
         var y = dt.getFullYear();
         var m = String(dt.getMonth() + 1).padStart(2, '0');
         var d = String(dt.getDate()).padStart(2, '0');
         return y + '-' + m + '-' + d;
       }
 
-      function fromISO(str) {
+      function parseLocalISO(str) {
         if (!str || typeof str !== 'string') return null;
-        var parts = str.split('-');
-        if (parts.length !== 3) return null;
-        var y = Number(parts[0]);
-        var m = Number(parts[1]);
-        var d = Number(parts[2]);
+        var p = str.split('-');
+        if (p.length !== 3) return null;
+        var y = Number(p[0]);
+        var m = Number(p[1]);
+        var d = Number(p[2]);
         if (!Number.isInteger(y) || !Number.isInteger(m) || !Number.isInteger(d)) return null;
         var dt = new Date(y, m - 1, d);
         if (dt.getFullYear() !== y || dt.getMonth() !== m - 1 || dt.getDate() !== d) return null;
         return dt;
       }
 
-      function addDaysISO(isoStr, days) {
-        var dt = fromISO(isoStr);
+      function shiftISO(isoStr, deltaDays) {
+        var dt = parseLocalISO(isoStr);
         if (!dt) return '';
-        dt.setDate(dt.getDate() + days);
-        return toISO(dt);
+        dt.setDate(dt.getDate() + deltaDays);
+        return toLocalISO(dt);
       }
 
-      function getCurrentWeekWednesdayISO() {
+      function defaultWednesdayISO() {
         var now = new Date();
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        var diffFromWed = (today.getDay() + 4) % 7;
-        today.setDate(today.getDate() - diffFromWed);
-        return toISO(today);
+        var offsetFromWed = (today.getDay() + 4) % 7;
+        today.setDate(today.getDate() - offsetFromWed);
+        return toLocalISO(today);
       }
 
-      function fmtDM(isoStr) {
-        var dt = fromISO(isoStr);
-        if (!dt) return '—';
+      function formatShortDate(isoStr) {
+        var dt = parseLocalISO(isoStr);
+        if (!dt) return '';
         return String(dt.getDate()).padStart(2, '0') + '/' + String(dt.getMonth() + 1).padStart(2, '0');
       }
 
-      function fmtDMY(isoStr) {
-        var dt = fromISO(isoStr);
+      function formatFullDate(isoStr) {
+        var dt = parseLocalISO(isoStr);
         if (!dt) return '—';
         return (
           String(dt.getDate()).padStart(2, '0') + '/' +
@@ -1652,35 +1460,40 @@
         );
       }
 
-      function fmtNowStamp() {
+      function formatNow() {
         var now = new Date();
         return (
-          fmtDMY(toISO(now)) + ' ' +
+          formatFullDate(toLocalISO(now)) + ' ' +
           String(now.getHours()).padStart(2, '0') + ':' +
           String(now.getMinutes()).padStart(2, '0')
         );
       }
 
-      function fmtCurrency(val) {
-        var n = Number(val);
-        if (!Number.isFinite(n)) n = 0;
-        return '$' + n.toLocaleString('es-MX', {
+      function formatMoney(n) {
+        var val = Number(n);
+        if (!Number.isFinite(val)) val = 0;
+        return '$' + val.toLocaleString('es-MX', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         });
       }
 
-      function fmtCount(val) {
-        var n = Number(val);
-        if (!Number.isFinite(n) || n <= 0) return '0';
-        var rounded = Math.round(n * 10000) / 10000;
-        return rounded.toLocaleString('es-MX', {
-          maximumFractionDigits: 4
-        });
+      function formatBoxes(n) {
+        var val = Number(n);
+        if (!Number.isFinite(val) || val <= 0) return '0';
+        var clean = Math.round(val * 10000) / 10000;
+        return clean.toLocaleString('es-MX', { maximumFractionDigits: 4 });
       }
 
-      function escHtml(s) {
-        return String(s)
+      function cleanQty(raw) {
+        if (raw === '' || raw === null || raw === undefined) return 0;
+        var num = Number(raw);
+        if (!Number.isFinite(num) || num <= 0) return 0;
+        return Math.round(num * 10000) / 10000;
+      }
+
+      function escapeHTML(str) {
+        return String(str)
           .replace(/&/g, '&amp;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
@@ -1688,620 +1501,539 @@
           .replace(/'/g, '&#39;');
       }
 
-      function escAttr(s) {
+      function escapeAttr(str) {
         if (window.CSS && typeof window.CSS.escape === 'function') {
-          return window.CSS.escape(s);
+          return window.CSS.escape(str);
         }
-        return String(s).replace(/([^a-zA-Z0-9_-])/g, '\\$1');
+        return String(str).replace(/([^a-zA-Z0-9_-])/g, '\\$1');
       }
 
-      function makeBoxId(label) {
-        var clean = String(label || 'caja')
+      function createProductId(label) {
+        var base = String(label || 'caja')
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '_')
           .replace(/^_+|_+$/g, '');
-        if (!clean) clean = 'caja';
-        return clean + '_' + Math.random().toString(36).slice(2, 6);
-      }
-
-      function sanitizeQty(raw) {
-        if (raw === '' || raw === null || raw === undefined) return 0;
-        var n = Number(raw);
-        if (!Number.isFinite(n) || n <= 0) return 0;
-        return Math.round(n * 10000) / 10000;
+        if (!base) base = 'caja';
+        return base + '_' + Math.random().toString(36).slice(2, 6);
       }
 
       /* =====================================================================
-         ESTADO DE LA APLICACIÓN Y PERSISTENCIA EN LOCALSTORAGE
+         ESTADO DE LA APLICACIÓN Y LOCALSTORAGE
          ===================================================================== */
-      var state = {
-        startDate: getCurrentWeekWednesdayISO(),
+      var appState = {
         packerName: '',
         packinghouseName: '',
-        boxes: cloneDefaultBoxes(),
-        entries: {}
+        startDate: defaultWednesdayISO(),
+        showDates: true,
+        products: cloneSketchProducts(),
+        quantities: {}
       };
 
-      var dayFilter = 'all';
-      var receiptOpen = false;
-      var receiptIssuedAt = '';
+      var extraPanelOpen = false;
+      var reportVisible = false;
+      var reportEmittedAt = '';
 
-      function rebuildEntriesMap(boxList, prevEntries) {
-        var map = {};
-        for (var d = 0; d < DAYS_CYCLE.length; d++) {
-          var dk = DAYS_CYCLE[d].key;
-          var oldDay = (prevEntries && typeof prevEntries[dk] === 'object' && prevEntries[dk]) ? prevEntries[dk] : {};
-          map[dk] = {};
-          for (var b = 0; b < boxList.length; b++) {
-            var bid = boxList[b].id;
-            map[dk][bid] = sanitizeQty(oldDay[bid]);
+      function buildQuantitiesGrid(prodList, prevGrid) {
+        var grid = {};
+        for (var d = 0; d < WEEK_DAYS.length; d++) {
+          var dk = WEEK_DAYS[d].key;
+          var oldRow = (prevGrid && typeof prevGrid[dk] === 'object' && prevGrid[dk]) ? prevGrid[dk] : {};
+          grid[dk] = {};
+          for (var p = 0; p < prodList.length; p++) {
+            var pid = prodList[p].id;
+            grid[dk][pid] = cleanQty(oldRow[pid]);
           }
         }
-        return map;
+        return grid;
       }
 
-      function normalizeAppState(raw) {
-        var list = [];
-        if (raw && Array.isArray(raw.boxes) && raw.boxes.length > 0) {
-          for (var i = 0; i < raw.boxes.length; i++) {
-            var item = raw.boxes[i];
+      function sanitizeState(raw) {
+        var prods = [];
+        if (raw && Array.isArray(raw.products) && raw.products.length > 0) {
+          for (var i = 0; i < raw.products.length; i++) {
+            var item = raw.products[i];
             if (!item || typeof item !== 'object') continue;
             var lbl = String(item.label || '').trim().slice(0, 32);
-            var rt = Number(item.rate);
-            if (!lbl || !Number.isFinite(rt) || rt < 0) continue;
-            var id = typeof item.id === 'string' && item.id.trim() ? item.id.trim() : makeBoxId(lbl);
-            list.push({ id: id, label: lbl, rate: Math.round(rt * 10000) / 10000 });
+            var pr = Number(item.price);
+            if (!lbl || !Number.isFinite(pr) || pr < 0) continue;
+            var pid = (typeof item.id === 'string' && item.id.trim()) ? item.id.trim() : createProductId(lbl);
+            prods.push({
+              id: pid,
+              label: lbl,
+              price: Math.round(pr * 10000) / 10000
+            });
           }
         }
-        if (list.length === 0) {
-          list = cloneDefaultBoxes();
+        if (prods.length === 0) {
+          prods = cloneSketchProducts();
         }
 
-        var dt = raw && typeof raw.startDate === 'string' && fromISO(raw.startDate)
+        var dtStr = (raw && typeof raw.startDate === 'string' && parseLocalISO(raw.startDate))
           ? raw.startDate
-          : getCurrentWeekWednesdayISO();
-
-        var packer = raw && typeof raw.packerName === 'string'
-          ? raw.packerName.slice(0, 80)
-          : '';
-
-        var packinghouse = raw && typeof raw.packinghouseName === 'string'
-          ? raw.packinghouseName.slice(0, 80)
-          : '';
+          : defaultWednesdayISO();
 
         return {
-          startDate: dt,
-          packerName: packer,
-          packinghouseName: packinghouse,
-          boxes: list,
-          entries: rebuildEntriesMap(list, raw ? raw.entries : null)
+          packerName: (raw && typeof raw.packerName === 'string') ? raw.packerName.slice(0, 80) : '',
+          packinghouseName: (raw && typeof raw.packinghouseName === 'string') ? raw.packinghouseName.slice(0, 80) : '',
+          startDate: dtStr,
+          showDates: (raw && typeof raw.showDates === 'boolean') ? raw.showDates : true,
+          products: prods,
+          quantities: buildQuantitiesGrid(prods, raw ? raw.quantities : null)
         };
       }
 
-      function persistState() {
+      function saveStorage() {
         try {
-          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
         } catch (err) {
-          showToast('No se pudo guardar en localStorage; los datos siguen activos en la sesión.', 'info');
+          showToast('No se pudo guardar en localStorage; los cambios siguen activos en esta ventana.', 'info');
         }
       }
 
-      function loadPersistedState() {
+      function loadStorage() {
         try {
           var raw = window.localStorage.getItem(STORAGE_KEY);
           if (!raw) {
-            state = normalizeAppState(null);
+            appState = sanitizeState(null);
             return;
           }
-          state = normalizeAppState(JSON.parse(raw));
+          appState = sanitizeState(JSON.parse(raw));
         } catch (err) {
-          state = normalizeAppState(null);
-          showToast('Se inició con el catálogo base NORMAL de Bell Pepper.', 'info');
+          appState = sanitizeState(null);
+          showToast('Se cargó la tabla base del dibujo.', 'info');
         }
       }
 
       /* =====================================================================
-         REFERENCIAS DEL DOM
+         REFERENCIAS DEL DOM Y NOTIFICACIONES
          ===================================================================== */
-      var dom = {
-        topWaBtn: document.getElementById('top-wa-btn'),
-        topReportBtn: document.getElementById('top-report-btn'),
-        saveJsonBtn: document.getElementById('save-json-btn'),
-        loadJsonBtn: document.getElementById('load-json-btn'),
+      var ui = {
+        genReportTopBtn: document.getElementById('gen-report-top-btn'),
+        exportJsonBtn: document.getElementById('export-json-btn'),
+        importJsonBtn: document.getElementById('import-json-btn'),
         jsonFileInput: document.getElementById('json-file-input'),
-        askResetBtn: document.getElementById('ask-reset-btn'),
+        openResetBtn: document.getElementById('open-reset-btn'),
 
-        inlineConfirmBar: document.getElementById('inline-confirm-bar'),
-        cancelInlineReset: document.getElementById('cancel-inline-reset'),
-        confirmInlineReset: document.getElementById('confirm-inline-reset'),
+        resetConfirmBox: document.getElementById('reset-confirm-box'),
+        cancelResetBtn: document.getElementById('cancel-reset-btn'),
+        confirmResetBtn: document.getElementById('confirm-reset-btn'),
 
-        packerInput: document.getElementById('packer-input'),
-        packinghouseInput: document.getElementById('packinghouse-input'),
-        weekStartInput: document.getElementById('week-start-input'),
-        weekRangeLabel: document.getElementById('week-range-label'),
-        statusPackerName: document.getElementById('status-packer-name'),
-        statusPackinghouseName: document.getElementById('status-packinghouse-name'),
-        statusWorkedCount: document.getElementById('status-worked-count'),
+        packerNameInput: document.getElementById('packer-name-input'),
+        packinghouseNameInput: document.getElementById('packinghouse-name-input'),
+        startDateInput: document.getElementById('start-date-input'),
+        weekRangeText: document.getElementById('week-range-text'),
 
-        addBoxForm: document.getElementById('add-box-form'),
-        newBoxName: document.getElementById('new-box-name'),
-        newBoxRate: document.getElementById('new-box-rate'),
-        resetCatalogBtn: document.getElementById('reset-catalog-btn'),
-        catalogGrid: document.getElementById('catalog-grid'),
+        toggleExtraPanelBtn: document.getElementById('toggle-extra-panel-btn'),
+        extraPanelBody: document.getElementById('extra-panel-body'),
+        restoreSketchBtn: document.getElementById('restore-sketch-btn'),
+        addExtraBoxForm: document.getElementById('add-extra-box-form'),
+        extraBoxLabel: document.getElementById('extra-box-label'),
+        extraBoxPrice: document.getElementById('extra-box-price'),
+        ratesEditorGrid: document.getElementById('rates-editor-grid'),
 
-        prodThead: document.getElementById('prod-thead'),
-        prodTbody: document.getElementById('prod-tbody'),
-        prodTfoot: document.getElementById('prod-tfoot'),
+        toggleDatesBtn: document.getElementById('toggle-dates-btn'),
+        sketchThead: document.getElementById('sketch-thead'),
+        sketchTbody: document.getElementById('sketch-tbody'),
+        sketchTfoot: document.getElementById('sketch-tfoot'),
 
-        statusToast: document.getElementById('status-toast'),
-        statusToastMsg: document.getElementById('status-toast-msg'),
+        toastBar: document.getElementById('toast-bar'),
+        toastText: document.getElementById('toast-text'),
         closeToastBtn: document.getElementById('close-toast-btn'),
 
-        summaryHeading: document.getElementById('summary-heading'),
-        summaryPeriodSub: document.getElementById('summary-period-sub'),
-        openReceiptTopBtn: document.getElementById('open-receipt-top-btn'),
-        kpiPacker: document.getElementById('kpi-packer'),
-        kpiPackinghouse: document.getElementById('kpi-packinghouse'),
-        kpiWorkedDays: document.getElementById('kpi-worked-days'),
+        summaryEmpLine: document.getElementById('summary-emp-line'),
         kpiTotalBoxes: document.getElementById('kpi-total-boxes'),
-        kpiGrandTotal: document.getElementById('kpi-grand-total'),
+        kpiWorkedDays: document.getElementById('kpi-worked-days'),
+        kpiWeekTotal: document.getElementById('kpi-week-total'),
+        dailySummaryTbody: document.getElementById('daily-summary-tbody'),
+        productSummaryTbody: document.getElementById('product-summary-tbody'),
 
-        summaryDaysTbody: document.getElementById('summary-days-tbody'),
-        summaryBoxesTbody: document.getElementById('summary-boxes-tbody'),
-
-        genReceiptBtn: document.getElementById('gen-receipt-btn'),
-        copyWaBtn: document.getElementById('copy-wa-btn'),
-        printSheetBtn: document.getElementById('print-sheet-btn'),
-
-        receiptPanel: document.getElementById('receipt-panel'),
-        rcpPackerVal: document.getElementById('rcp-packer-val'),
-        rcpPackinghouseVal: document.getElementById('rcp-packinghouse-val'),
-        rcpWeekVal: document.getElementById('rcp-week-val'),
-        rcpIssuedVal: document.getElementById('rcp-issued-val'),
-        rcpDaysList: document.getElementById('rcp-days-list'),
-        rcpBoxesDetail: document.getElementById('rcp-boxes-detail'),
-        rcpBoxesCountSub: document.getElementById('rcp-boxes-count-sub'),
-        rcpGrandTotalVal: document.getElementById('rcp-grand-total-val'),
+        genReportBottomBtn: document.getElementById('gen-report-bottom-btn'),
+        copyWaSummaryBtn: document.getElementById('copy-wa-summary-btn'),
+        reportCard: document.getElementById('report-card'),
+        rcpPacker: document.getElementById('rcp-packer'),
+        rcpPackinghouse: document.getElementById('rcp-packinghouse'),
+        rcpWeek: document.getElementById('rcp-week'),
+        rcpIssued: document.getElementById('rcp-issued'),
+        rcpDaysContainer: document.getElementById('rcp-days-container'),
+        rcpCountsLine: document.getElementById('rcp-counts-line'),
+        rcpGrandTotal: document.getElementById('rcp-grand-total'),
 
         copyReceiptBtn: document.getElementById('copy-receipt-btn'),
         printReceiptBtn: document.getElementById('print-receipt-btn'),
-        hideReceiptBtn: document.getElementById('hide-receipt-btn'),
-
-        waBox: document.getElementById('wa-box')
+        hideReportBtn: document.getElementById('hide-report-btn'),
+        waPreview: document.getElementById('wa-preview')
       };
 
       var toastTimer = null;
 
-      function showToast(msg, kind) {
-        if (!dom.statusToast || !dom.statusToastMsg) return;
-        dom.statusToastMsg.textContent = msg;
-        dom.statusToast.classList.remove('show', 'ok', 'info', 'err');
-        dom.statusToast.classList.add(kind || 'info', 'show');
+      function showToast(msg, type) {
+        if (!ui.toastBar || !ui.toastText) return;
+        ui.toastText.textContent = msg;
+        ui.toastBar.classList.remove('show', 'ok', 'info', 'err');
+        ui.toastBar.classList.add(type || 'info', 'show');
         if (toastTimer) window.clearTimeout(toastTimer);
         toastTimer = window.setTimeout(function () {
-          dom.statusToast.classList.remove('show');
-        }, 4200);
+          ui.toastBar.classList.remove('show');
+        }, 4000);
       }
 
       /* =====================================================================
-         CÁLCULO AUTOMÁTICO (CANTIDAD × COSTO POR CAJA, DÍA Y SEMANA)
+         CÁLCULOS: CAJAS × IMPORTE UNITARIO -> TOTAL DIARIO -> IMPORTE TOTAL
          ===================================================================== */
-      function calculateProduction() {
-        var boxTotalsQty = {};
-        var boxTotalsMoney = {};
-        for (var b = 0; b < state.boxes.length; b++) {
-          boxTotalsQty[state.boxes[b].id] = 0;
-          boxTotalsMoney[state.boxes[b].id] = 0;
+      function computeTotals() {
+        var colBoxes = {};
+        var colMoney = {};
+        for (var p = 0; p < appState.products.length; p++) {
+          colBoxes[appState.products[p].id] = 0;
+          colMoney[appState.products[p].id] = 0;
         }
 
         var days = [];
-        var runningTotal = 0;
         var totalBoxes = 0;
-        var grandTotal = 0;
-        var workedDaysCount = 0;
+        var weekTotal = 0;
+        var workedDays = 0;
 
-        for (var d = 0; d < DAYS_CYCLE.length; d++) {
-          var def = DAYS_CYCLE[d];
-          var iso = addDaysISO(state.startDate, def.offset);
-          var dayMap = state.entries[def.key] || {};
+        for (var d = 0; d < WEEK_DAYS.length; d++) {
+          var wDay = WEEK_DAYS[d];
+          var dayISO = shiftISO(appState.startDate, wDay.offset);
+          var rowQtyMap = appState.quantities[wDay.key] || {};
 
           var dayBoxes = 0;
-          var dayEarned = 0;
-          var perBox = {};
+          var dayTotal = 0;
+          var cells = {};
 
-          for (var i = 0; i < state.boxes.length; i++) {
-            var box = state.boxes[i];
-            var qty = sanitizeQty(dayMap[box.id]);
-            var earned = qty * box.rate;
+          for (var i = 0; i < appState.products.length; i++) {
+            var prod = appState.products[i];
+            var qty = cleanQty(rowQtyMap[prod.id]);
+            var amount = qty * prod.price;
 
-            perBox[box.id] = { qty: qty, earned: earned };
+            cells[prod.id] = { qty: qty, amount: amount };
             dayBoxes += qty;
-            dayEarned += earned;
-            boxTotalsQty[box.id] += qty;
-            boxTotalsMoney[box.id] += earned;
+            dayTotal += amount;
+            colBoxes[prod.id] += qty;
+            colMoney[prod.id] += amount;
           }
 
-          var isWorked = dayBoxes > 0 || dayEarned > 0;
-          if (isWorked) workedDaysCount++;
+          var hasWorked = dayBoxes > 0 || dayTotal > 0;
+          if (hasWorked) workedDays++;
 
-          runningTotal += dayEarned;
           totalBoxes += dayBoxes;
-          grandTotal += dayEarned;
+          weekTotal += dayTotal;
 
           days.push({
-            key: def.key,
-            name: def.name,
-            shortName: def.shortName,
-            iso: iso,
-            shortLabel: def.shortName + ' ' + fmtDM(iso),
-            fullLabel: def.name + ' ' + fmtDMY(iso),
-            perBox: perBox,
+            key: wDay.key,
+            label: wDay.label,
+            iso: dayISO,
+            shortDate: formatShortDate(dayISO),
+            fullDate: formatFullDate(dayISO),
+            cells: cells,
             boxes: dayBoxes,
-            earned: dayEarned,
-            cumulative: runningTotal,
-            isWorked: isWorked
+            dayTotal: dayTotal,
+            cumulative: weekTotal,
+            hasWorked: hasWorked
           });
         }
 
         return {
           days: days,
-          boxTotalsQty: boxTotalsQty,
-          boxTotalsMoney: boxTotalsMoney,
+          colBoxes: colBoxes,
+          colMoney: colMoney,
           totalBoxes: totalBoxes,
-          grandTotal: grandTotal,
-          workedDaysCount: workedDaysCount
+          weekTotal: weekTotal,
+          workedDays: workedDays
         };
       }
 
       /* =====================================================================
-         RENDERIZADO DE CABECERA, CATÁLOGO, TABLA PRINCIPAL Y RESÚMENES
+         RENDERIZADO DE CABECERA, EDITOR EXTRA, TABLA PRINCIPAL Y RESÚMENES
          ===================================================================== */
-      function renderIdentityAndWeek(calc) {
-        var startISO = state.startDate;
-        var endISO = addDaysISO(startISO, 6);
-        var pName = state.packerName.trim() || 'Sin registrar';
-        var eName = state.packinghouseName.trim() || 'Sin registrar';
-
-        dom.weekStartInput.value = startISO;
-        dom.weekRangeLabel.textContent = fmtDMY(startISO) + ' — ' + fmtDMY(endISO);
-
-        if (dom.packerInput.value !== state.packerName) {
-          dom.packerInput.value = state.packerName;
+      function renderTopCard() {
+        if (ui.packerNameInput.value !== appState.packerName) {
+          ui.packerNameInput.value = appState.packerName;
         }
-        if (dom.packinghouseInput.value !== state.packinghouseName) {
-          dom.packinghouseInput.value = state.packinghouseName;
+        if (ui.packinghouseNameInput.value !== appState.packinghouseName) {
+          ui.packinghouseNameInput.value = appState.packinghouseName;
         }
+        ui.startDateInput.value = appState.startDate;
+        ui.weekRangeText.textContent = formatFullDate(appState.startDate) + ' — ' + formatFullDate(shiftISO(appState.startDate, 6));
 
-        dom.statusPackerName.textContent = pName;
-        dom.statusPackinghouseName.textContent = eName;
-        dom.statusWorkedCount.textContent = 'Días trabajados: ' + calc.workedDaysCount + ' de 7';
+        ui.toggleDatesBtn.classList.toggle('active', appState.showDates);
+        ui.toggleDatesBtn.textContent = 'Mostrar fechas: ' + (appState.showDates ? 'Sí' : 'No');
+
+        ui.extraPanelBody.classList.toggle('open', extraPanelOpen);
       }
 
-      function renderCatalogCards() {
+      function renderRatesEditor() {
         var html = '';
-        for (var i = 0; i < state.boxes.length; i++) {
-          var box = state.boxes[i];
-          var canDelete = state.boxes.length > 1;
+        for (var i = 0; i < appState.products.length; i++) {
+          var prod = appState.products[i];
+          var canRemove = appState.products.length > 1;
           html +=
-            '<div class="cat-card">' +
-              '<div class="cat-top">' +
+            '<div class="rate-edit-card">' +
+              '<div class="rate-edit-top">' +
                 '<input ' +
                   'type="text" ' +
-                  'class="cat-label-input" ' +
-                  'data-edit-label="' + escHtml(box.id) + '" ' +
+                  'class="rate-lbl-input" ' +
+                  'data-edit-prod-label="' + escapeHTML(prod.id) + '" ' +
                   'maxlength="32" ' +
                   'aria-label="Nombre de presentación" ' +
-                  'value="' + escHtml(box.label) + '" ' +
+                  'value="' + escapeHTML(prod.label) + '" ' +
                 '/>' +
-                (canDelete
-                  ? '<button type="button" class="btn-del-cat" data-del-box="' + escHtml(box.id) + '" title="Eliminar">×</button>'
+                (canRemove
+                  ? '<button type="button" class="btn-mini-del" data-del-prod="' + escapeHTML(prod.id) + '" title="Quitar">×</button>'
                   : '') +
               '</div>' +
-              '<div class="cat-bottom">' +
-                '<span style="font-size:10px;color:var(--text-muted);font-weight:750;">NORMAL ($)</span>' +
-                '<span class="cat-rate-box">$' +
-                  '<input ' +
-                    'type="number" ' +
-                    'class="cat-rate-input" ' +
-                    'data-edit-rate="' + escHtml(box.id) + '" ' +
-                    'min="0" ' +
-                    'step="any" ' +
-                    'aria-label="Costo NORMAL de ' + escHtml(box.label) + '" ' +
-                    'value="' + escHtml(String(box.rate)) + '" ' +
-                  '/>' +
-                '</span>' +
+              '<div class="rate-val-row">' +
+                '<span>Importe ($):</span>' +
+                '<input ' +
+                  'type="number" ' +
+                  'class="rate-num-input" ' +
+                  'data-edit-prod-price="' + escapeHTML(prod.id) + '" ' +
+                  'min="0" ' +
+                  'step="any" ' +
+                  'aria-label="Importe de ' + escapeHTML(prod.label) + '" ' +
+                  'value="' + escapeHTML(String(prod.price)) + '" ' +
+                '/>' +
               '</div>' +
             '</div>';
         }
-        dom.catalogGrid.innerHTML = html;
+        ui.ratesEditorGrid.innerHTML = html;
       }
 
       function renderMainTable(calc) {
-        var boxHeads = '';
-        for (var b = 0; b < state.boxes.length; b++) {
-          var box = state.boxes[b];
-          boxHeads +=
-            '<th class="col-box-head">' +
-              '<span class="box-head-label">' + escHtml(box.label) + '</span>' +
-              '<span class="box-head-rate">' + fmtCurrency(box.rate) + '</span>' +
+        var headCols = '';
+        for (var p = 0; p < appState.products.length; p++) {
+          var prod = appState.products[p];
+          headCols +=
+            '<th class="th-prod-col">' +
+              '<span class="th-prod-name">' + escapeHTML(prod.label) + '</span>' +
+              '<span class="th-prod-price">' + formatMoney(prod.price) + '</span>' +
             '</th>';
         }
 
-        dom.prodThead.innerHTML =
+        ui.sketchThead.innerHTML =
           '<tr>' +
-            '<th class="col-day-head">Día Trabajado (Mié–Mar)</th>' +
-            boxHeads +
-            '<th class="col-right-head">Total Día / Acum.</th>' +
+            '<th class="th-dias-left">DIAS</th>' +
+            headCols +
+            '<th class="th-total-right">TOTAL DIARIO ($)</th>' +
           '</tr>';
 
-        var visibleDays = dayFilter === 'worked'
-          ? calc.days.filter(function (d) { return d.isWorked; })
-          : calc.days;
+        var bodyRows = '';
+        for (var d = 0; d < calc.days.length; d++) {
+          var day = calc.days[d];
+          var rowCells = '';
 
-        var rowsHtml = '';
-        for (var d = 0; d < visibleDays.length; d++) {
-          var day = visibleDays[d];
-          var cellsHtml = '';
+          for (var c = 0; c < appState.products.length; c++) {
+            var item = appState.products[c];
+            var cell = day.cells[item.id] || { qty: 0, amount: 0 };
+            var hasVal = cell.qty > 0;
 
-          for (var c = 0; c < state.boxes.length; c++) {
-            var item = state.boxes[c];
-            var cell = day.perBox[item.id] || { qty: 0, earned: 0 };
-            var active = cell.qty > 0;
-
-            cellsHtml +=
-              '<td class="td-box-input">' +
+            rowCells +=
+              '<td class="td-qty-cell">' +
                 '<input ' +
                   'type="number" ' +
                   'min="0" ' +
                   'step="any" ' +
                   'inputmode="decimal" ' +
-                  'class="box-qty-input' + (active ? ' has-qty' : '') + '" ' +
-                  'data-day-key="' + escHtml(day.key) + '" ' +
-                  'data-box-id="' + escHtml(item.id) + '" ' +
-                  'aria-label="' + escHtml(item.label) + ' ' + escHtml(day.name) + '" ' +
-                  'value="' + (active ? String(cell.qty) : '') + '" ' +
+                  'class="qty-num-input' + (hasVal ? ' filled' : '') + '" ' +
+                  'data-day="' + escapeHTML(day.key) + '" ' +
+                  'data-prod="' + escapeHTML(item.id) + '" ' +
+                  'aria-label="' + escapeHTML(day.label) + ' ' + escapeHTML(item.label) + '" ' +
+                  'value="' + (hasVal ? String(cell.qty) : '') + '" ' +
                   'placeholder="0" ' +
                 '/>' +
-                '<span class="cell-subtotal' + (cell.earned > 0 ? ' has-amt' : '') + '">' +
-                  (cell.earned > 0 ? fmtCurrency(cell.earned) : '—') +
+                '<span class="cell-mult-sub' + (cell.amount > 0 ? ' active' : '') + '">' +
+                  (cell.amount > 0 ? formatMoney(cell.amount) : formatMoney(item.price)) +
                 '</span>' +
               '</td>';
           }
 
-          rowsHtml +=
-            '<tr class="day-row' + (day.isWorked ? ' worked-row' : '') + '">' +
-              '<td class="col-day-cell">' +
-                '<div class="day-title-row">' +
-                  '<span class="status-dot"></span>' +
-                  '<span class="day-name">' + escHtml(day.name) + '</span>' +
-                  '<span class="worked-tag">' + (day.isWorked ? 'Trabajado' : 'Sin cajas') + '</span>' +
+          bodyRows +=
+            '<tr class="day-row' + (day.hasWorked ? ' has-data' : '') + '">' +
+              '<td class="td-dia-left">' +
+                '<div class="dia-line-top">' +
+                  '<span class="dia-led"></span>' +
+                  '<span class="dia-nombre">' + escapeHTML(day.label) + '</span>' +
                 '</div>' +
-                '<span class="day-date-sub">' + escHtml(day.shortLabel) + '</span>' +
+                (appState.showDates
+                  ? '<span class="dia-fecha">' + escapeHTML(day.shortDate) + '</span>'
+                  : '') +
               '</td>' +
-              cellsHtml +
-              '<td class="col-right-cell">' +
-                '<span class="day-earned-main">' + fmtCurrency(day.earned) + '</span>' +
-                '<span class="day-earned-sub">' + fmtCount(day.boxes) + ' cajas</span>' +
-                '<span class="day-cum-sub">Acum: ' + fmtCurrency(day.cumulative) + '</span>' +
-              '</td>' +
-            '</tr>';
-        }
-
-        if (!rowsHtml) {
-          rowsHtml =
-            '<tr>' +
-              '<td colspan="' + (state.boxes.length + 2) + '" style="padding:20px;color:var(--text-secondary);font-weight:700;">' +
-                'Aún no hay días con cajas capturadas. Cambia a "Todos los días (7)" o anota cajas en cualquier día.' +
+              rowCells +
+              '<td class="td-total-right">' +
+                '<span class="total-dia-val">' + formatMoney(day.dayTotal) + '</span>' +
+                '<span class="total-dia-cajas">' + formatBoxes(day.boxes) + ' cajas</span>' +
               '</td>' +
             '</tr>';
         }
+        ui.sketchTbody.innerHTML = bodyRows;
 
-        dom.prodTbody.innerHTML = rowsHtml;
-
-        var footQtyCols = '';
-        var footAmtCols = '';
-        for (var f = 0; f < state.boxes.length; f++) {
-          var fb = state.boxes[f];
-          footQtyCols += '<td>' + fmtCount(calc.boxTotalsQty[fb.id] || 0) + '</td>';
-          footAmtCols += '<td>' + fmtCurrency(calc.boxTotalsMoney[fb.id] || 0) + '</td>';
+        var footBoxesCols = '';
+        var footSubCols = '';
+        for (var f = 0; f < appState.products.length; f++) {
+          var fp = appState.products[f];
+          footBoxesCols += '<td>' + formatBoxes(calc.colBoxes[fp.id] || 0) + '</td>';
+          footSubCols += '<td>' + formatMoney(calc.colMoney[fp.id] || 0) + '</td>';
         }
 
-        dom.prodTfoot.innerHTML =
+        ui.sketchTfoot.innerHTML =
           '<tr class="foot-boxes-row">' +
-            '<td class="col-day-cell">Total Cajas</td>' +
-            footQtyCols +
-            '<td class="col-right-cell">' + fmtCount(calc.totalBoxes) + ' cajas</td>' +
+            '<td class="td-dia-left">TOTAL CAJAS</td>' +
+            footBoxesCols +
+            '<td class="td-total-right">' + formatBoxes(calc.totalBoxes) + ' cajas</td>' +
           '</tr>' +
-          '<tr class="foot-money-row">' +
-            '<td class="col-day-cell">Total por Caja ($)</td>' +
-            footAmtCols +
-            '<td class="col-right-cell">' + fmtCurrency(calc.grandTotal) + '</td>' +
-          '</tr>' +
-          '<tr class="foot-grand-row">' +
-            '<td class="col-day-cell">GRAN TOTAL SEMANA ($)</td>' +
-            '<td colspan="' + state.boxes.length + '" style="text-align:left;padding-left:14px;color:#e2e8f0;">' +
-              'Suma total ganada de miércoles a martes (Tarifa NORMAL)' +
-            '</td>' +
-            '<td class="col-right-cell">' + fmtCurrency(calc.grandTotal) + '</td>' +
+          '<tr class="foot-importe-total-row">' +
+            '<td class="td-dia-left">IMPORTE TOTAL $</td>' +
+            footSubCols +
+            '<td class="td-total-right">' + formatMoney(calc.weekTotal) + '</td>' +
           '</tr>';
       }
 
       function renderSummaries(calc) {
-        var pName = state.packerName.trim() || 'Sin registrar';
-        var eName = state.packinghouseName.trim() || 'Sin registrar';
-        var startStr = fmtDMY(state.startDate);
-        var endStr = fmtDMY(addDaysISO(state.startDate, 6));
+        var emp = appState.packerName.trim() || 'Sin registrar';
+        var empacadora = appState.packinghouseName.trim() || 'Sin registrar';
 
-        dom.summaryHeading.textContent = 'Empacador: ' + pName + ' · Empacadora: ' + eName;
-        dom.summaryPeriodSub.textContent = 'Semana Miércoles–Martes: ' + startStr + ' al ' + endStr + ' · Tarifa NORMAL';
+        ui.summaryEmpLine.textContent = 'Empacador: ' + emp + ' · Empacadora: ' + empacadora;
+        ui.kpiTotalBoxes.textContent = formatBoxes(calc.totalBoxes);
+        ui.kpiWorkedDays.textContent = calc.workedDays + ' / 7';
+        ui.kpiWeekTotal.textContent = formatMoney(calc.weekTotal);
 
-        dom.kpiPacker.textContent = pName;
-        dom.kpiPackinghouse.textContent = eName;
-        dom.kpiWorkedDays.textContent = calc.workedDaysCount + (calc.workedDaysCount === 1 ? ' día' : ' días');
-        dom.kpiTotalBoxes.textContent = fmtCount(calc.totalBoxes);
-        dom.kpiGrandTotal.textContent = fmtCurrency(calc.grandTotal);
-
-        var daysRows = '';
+        var dHtml = '';
         for (var d = 0; d < calc.days.length; d++) {
           var day = calc.days[d];
-          daysRows +=
+          dHtml +=
             '<tr>' +
               '<td>' +
-                '<strong>' + escHtml(day.name) + '</strong> ' +
-                '<span style="color:var(--text-muted);font-size:11px;">' + fmtDM(day.iso) + '</span>' +
+                '<strong>' + escapeHTML(day.label) + '</strong>' +
+                (appState.showDates
+                  ? ' <span style="color:var(--text-muted);font-size:11px;">' + escapeHTML(day.shortDate) + '</span>'
+                  : '') +
               '</td>' +
-              '<td class="num">' + fmtCount(day.boxes) + '</td>' +
-              '<td class="num txt-lime">' + fmtCurrency(day.earned) + '</td>' +
-              '<td class="num txt-blue">' + fmtCurrency(day.cumulative) + '</td>' +
+              '<td class="num">' + formatBoxes(day.boxes) + '</td>' +
+              '<td class="num txt-lime">' + formatMoney(day.dayTotal) + '</td>' +
+              '<td class="num txt-blue">' + formatMoney(day.cumulative) + '</td>' +
             '</tr>';
         }
-        dom.summaryDaysTbody.innerHTML = daysRows;
+        ui.dailySummaryTbody.innerHTML = dHtml;
 
-        var boxRows = '';
-        for (var b = 0; b < state.boxes.length; b++) {
-          var box = state.boxes[b];
-          var bQty = calc.boxTotalsQty[box.id] || 0;
-          var bAmt = calc.boxTotalsMoney[box.id] || 0;
-          boxRows +=
+        var pHtml = '';
+        for (var p = 0; p < appState.products.length; p++) {
+          var prod = appState.products[p];
+          var pQty = calc.colBoxes[prod.id] || 0;
+          var pAmt = calc.colMoney[prod.id] || 0;
+          pHtml +=
             '<tr>' +
-              '<td><strong>' + escHtml(box.label) + '</strong></td>' +
-              '<td class="num" style="color:var(--text-secondary);">' + fmtCurrency(box.rate) + '</td>' +
-              '<td class="num">' + fmtCount(bQty) + '</td>' +
-              '<td class="num txt-lime">' + fmtCurrency(bAmt) + '</td>' +
+              '<td><strong>' + escapeHTML(prod.label) + '</strong></td>' +
+              '<td class="num" style="color:var(--text-secondary);">' + formatMoney(prod.price) + '</td>' +
+              '<td class="num">' + formatBoxes(pQty) + '</td>' +
+              '<td class="num txt-lime">' + formatMoney(pAmt) + '</td>' +
             '</tr>';
         }
-        dom.summaryBoxesTbody.innerHTML = boxRows;
+        ui.productSummaryTbody.innerHTML = pHtml;
 
-        dom.waBox.textContent = buildWhatsAppText(calc);
+        ui.waPreview.textContent = buildWhatsAppReport(calc);
       }
 
-      function renderReceipt(calc) {
-        if (!receiptOpen) {
-          dom.receiptPanel.classList.remove('open');
+      function renderReport(calc) {
+        if (!reportVisible) {
+          ui.reportCard.classList.remove('open');
           return;
         }
 
-        var startStr = fmtDMY(state.startDate);
-        var endStr = fmtDMY(addDaysISO(state.startDate, 6));
-
-        dom.rcpPackerVal.textContent = state.packerName.trim() || 'No especificado';
-        dom.rcpPackinghouseVal.textContent = state.packinghouseName.trim() || 'No especificada';
-        dom.rcpWeekVal.textContent = startStr + ' al ' + endStr;
-        dom.rcpIssuedVal.textContent = receiptIssuedAt || fmtNowStamp();
+        ui.rcpPacker.textContent = appState.packerName.trim() || 'No especificado';
+        ui.rcpPackinghouse.textContent = appState.packinghouseName.trim() || 'No especificada';
+        ui.rcpWeek.textContent =
+          formatFullDate(appState.startDate) + ' al ' + formatFullDate(shiftISO(appState.startDate, 6));
+        ui.rcpIssued.textContent = reportEmittedAt || formatNow();
 
         var workedList = calc.days.filter(function (item) {
-          return item.isWorked;
+          return item.hasWorked;
         });
-        var rowsToShow = workedList.length > 0 ? workedList : calc.days;
+        var rows = workedList.length > 0 ? workedList : calc.days;
 
-        var listHtml = '';
-        for (var i = 0; i < rowsToShow.length; i++) {
-          var day = rowsToShow[i];
-          var boxNotes = [];
-          for (var b = 0; b < state.boxes.length; b++) {
-            var box = state.boxes[b];
-            var q = day.perBox[box.id] ? day.perBox[box.id].qty : 0;
-            if (q > 0) boxNotes.push(box.label + ': ' + fmtCount(q));
+        var rowsHtml = '';
+        for (var i = 0; i < rows.length; i++) {
+          var day = rows[i];
+          var breakdown = [];
+          for (var p = 0; p < appState.products.length; p++) {
+            var prod = appState.products[p];
+            var q = day.cells[prod.id] ? day.cells[prod.id].qty : 0;
+            if (q > 0) breakdown.push(prod.label + ': ' + formatBoxes(q));
           }
-          var subText = boxNotes.length > 0
-            ? fmtCount(day.boxes) + ' cajas · ' + boxNotes.join(', ')
-            : '0 cajas registradas';
+          var detailText = breakdown.length > 0
+            ? formatBoxes(day.boxes) + ' cajas (' + breakdown.join(', ') + ')'
+            : '0 cajas';
 
-          listHtml +=
-            '<div class="receipt-day-item">' +
+          rowsHtml +=
+            '<div class="receipt-row">' +
               '<div>' +
-                '<span class="receipt-day-left">' + escHtml(day.fullLabel) + '</span>' +
-                '<span class="receipt-day-sub">' + escHtml(subText) + '</span>' +
+                '<span class="receipt-left-day">' +
+                  escapeHTML(day.label) +
+                  (appState.showDates ? ' · ' + escapeHTML(day.fullDate) : '') +
+                '</span>' +
+                '<span class="receipt-left-detail">' + escapeHTML(detailText) + '</span>' +
               '</div>' +
-              '<div class="receipt-day-right">' + fmtCurrency(day.earned) + '</div>' +
+              '<div class="receipt-right-money">' + formatMoney(day.dayTotal) + '</div>' +
             '</div>';
         }
-        dom.rcpDaysList.innerHTML = listHtml;
+        ui.rcpDaysContainer.innerHTML = rowsHtml;
 
-        var summaryParts = [];
-        for (var k = 0; k < state.boxes.length; k++) {
-          var bx = state.boxes[k];
-          var totalQ = calc.boxTotalsQty[bx.id] || 0;
-          var totalM = calc.boxTotalsMoney[bx.id] || 0;
-          if (totalQ > 0) {
-            summaryParts.push(bx.label + ': ' + fmtCount(totalQ) + ' (' + fmtCurrency(totalM) + ')');
-          }
-        }
-        dom.rcpBoxesDetail.textContent = summaryParts.length > 0
-          ? summaryParts.join(' · ')
-          : 'Sin cajas registradas en la semana.';
+        ui.rcpCountsLine.textContent =
+          'Cajas empacadas: ' + formatBoxes(calc.totalBoxes) + ' · Días trabajados: ' + calc.workedDays + ' de 7';
+        ui.rcpGrandTotal.textContent = formatMoney(calc.weekTotal);
 
-        dom.rcpBoxesCountSub.textContent =
-          'Total cajas: ' + fmtCount(calc.totalBoxes) + ' · Días trabajados: ' + calc.workedDaysCount;
-        dom.rcpGrandTotalVal.textContent = fmtCurrency(calc.grandTotal);
-        dom.receiptPanel.classList.add('open');
+        ui.reportCard.classList.add('open');
       }
 
       function renderAll() {
-        var calc = calculateProduction();
-        renderIdentityAndWeek(calc);
-        renderCatalogCards();
+        var calc = computeTotals();
+        renderTopCard();
+        renderRatesEditor();
         renderMainTable(calc);
         renderSummaries(calc);
-        renderReceipt(calc);
+        renderReport(calc);
       }
 
       /* =====================================================================
-         TEXTOS PARA RECIBO Y WHATSAPP
+         TEXTOS PARA WHATSAPP Y PORTAPAPELES
          ===================================================================== */
-      function buildReceiptText(calc) {
-        var startStr = fmtDMY(state.startDate);
-        var endStr = fmtDMY(addDaysISO(state.startDate, 6));
-        var lines = [
-          'RECIBO INDIVIDUAL DE EMPAQUE - BELL PEPPER',
-          'Empacador: ' + (state.packerName.trim() || 'No especificado'),
-          'Empacadora: ' + (state.packinghouseName.trim() || 'No especificada'),
-          'Semana (Mié-Mar): ' + startStr + ' al ' + endStr + ' (NORMAL)',
-          '------------------------------------------------'
-        ];
-        var worked = calc.days.filter(function (d) { return d.isWorked; });
-        var targetDays = worked.length > 0 ? worked : calc.days;
-        for (var i = 0; i < targetDays.length; i++) {
-          lines.push(targetDays[i].fullLabel + '  -->  ' + fmtCurrency(targetDays[i].earned));
-        }
-        lines.push('------------------------------------------------');
-        lines.push('Total cajas: ' + fmtCount(calc.totalBoxes) + ' · Días trabajados: ' + calc.workedDaysCount);
-        lines.push('TOTAL GANADO AL FINAL DE LA SEMANA: ' + fmtCurrency(calc.grandTotal));
-        return lines.join('\n');
-      }
+      function buildWhatsAppReport(calc) {
+        var emp = appState.packerName.trim() || 'No especificado';
+        var empacadora = appState.packinghouseName.trim() || 'No especificada';
+        var weekStr = formatFullDate(appState.startDate) + ' al ' + formatFullDate(shiftISO(appState.startDate, 6));
 
-      function buildWhatsAppText(calc) {
-        var startStr = fmtDMY(state.startDate);
-        var endStr = fmtDMY(addDaysISO(state.startDate, 6));
         var lines = [
-          '*CONTROL INDIVIDUAL DE EMPAQUE - BELL PEPPER*',
-          'Empacador: *' + (state.packerName.trim() || 'No especificado') + '*',
-          'Empacadora: *' + (state.packinghouseName.trim() || 'No especificada') + '*',
-          'Semana (Mié a Mar): ' + startStr + ' al ' + endStr + ' (NORMAL)',
+          '*REPORTE SEMANAL DE EMPAQUE - BELL PEPPER*',
+          'Empacador: *' + emp + '*',
+          'Empacadora: *' + empacadora + '*',
+          'Semana (Mié–Mar): ' + weekStr,
           ''
         ];
+
         for (var d = 0; d < calc.days.length; d++) {
           var day = calc.days[d];
-          lines.push('• *' + day.shortLabel + '*: ' + fmtCurrency(day.earned) + ' (' + fmtCount(day.boxes) + ' cajas)');
+          var tag = day.label + (appState.showDates ? ' (' + day.shortDate + ')' : '');
+          lines.push('• *' + tag + '*: ' + formatMoney(day.dayTotal) + ' (' + formatBoxes(day.boxes) + ' cajas)');
         }
+
         lines.push('');
-        lines.push('Días trabajados: *' + calc.workedDaysCount + '* · Total cajas: *' + fmtCount(calc.totalBoxes) + '*');
-        lines.push('*GRAN TOTAL SEMANA: ' + fmtCurrency(calc.grandTotal) + '*');
+        lines.push('Total cajas: *' + formatBoxes(calc.totalBoxes) + '* · Días trabajados: *' + calc.workedDays + '*');
+        lines.push('*IMPORTE TOTAL SEMANA: ' + formatMoney(calc.weekTotal) + '*');
         return lines.join('\n');
       }
 
-      function copyToClipboard(text) {
+      function copyText(text) {
         if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
           return navigator.clipboard.writeText(text).then(function () {
             return true;
           }).catch(function () {
-            return execCopyFallback(text);
+            return fallbackCopy(text);
           });
         }
-        return Promise.resolve(execCopyFallback(text));
+        return Promise.resolve(fallbackCopy(text));
       }
 
-      function execCopyFallback(text) {
+      function fallbackCopy(text) {
         var ta = document.createElement('textarea');
         ta.value = text;
         ta.setAttribute('readonly', '');
@@ -2319,312 +2051,296 @@
         return ok;
       }
 
-      function generateReportReceipt() {
-        receiptOpen = true;
-        receiptIssuedAt = fmtNowStamp();
-        var calc = calculateProduction();
-        renderReceipt(calc);
-        dom.receiptPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        showToast('Reporte individual generado.', 'ok');
+      function triggerGenerateReport() {
+        reportVisible = true;
+        reportEmittedAt = formatNow();
+        var calc = computeTotals();
+        renderReport(calc);
+        ui.reportCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        showToast('Reporte semanal generado y actualizado.', 'ok');
       }
 
       /* =====================================================================
-         EVENTOS DE CAPTURA MANUAL, IDENTIDAD, CATÁLOGO Y RESPALDO JSON
+         EVENTOS DE CAPTURA, IDENTIDAD, TARIFAS Y RESPALDO JSON
          ===================================================================== */
-      dom.prodTbody.addEventListener('input', function (ev) {
+      ui.sketchTbody.addEventListener('input', function (ev) {
         var inp = ev.target;
-        if (!inp || !inp.classList || !inp.classList.contains('box-qty-input')) return;
+        if (!inp || !inp.classList || !inp.classList.contains('qty-num-input')) return;
 
-        var dayKey = inp.getAttribute('data-day-key');
-        var boxId = inp.getAttribute('data-box-id');
-        if (!dayKey || !boxId || !state.entries[dayKey]) return;
+        var dayKey = inp.getAttribute('data-day');
+        var prodId = inp.getAttribute('data-prod');
+        if (!dayKey || !prodId || !appState.quantities[dayKey]) return;
 
         var raw = inp.value;
         var num = Number(raw);
-        var clean = sanitizeQty(raw);
+        var val = cleanQty(raw);
 
         if (raw !== '' && (!Number.isFinite(num) || num < 0)) {
-          inp.value = clean > 0 ? String(clean) : '';
+          inp.value = val > 0 ? String(val) : '';
         }
 
-        state.entries[dayKey][boxId] = clean;
-        persistState();
+        appState.quantities[dayKey][prodId] = val;
+        saveStorage();
 
         var selStart = inp.selectionStart;
         var selEnd = inp.selectionEnd;
 
-        var calc = calculateProduction();
-        renderIdentityAndWeek(calc);
+        var calc = computeTotals();
         renderMainTable(calc);
         renderSummaries(calc);
-        if (receiptOpen) renderReceipt(calc);
+        if (reportVisible) renderReport(calc);
 
-        var selector = 'input.box-qty-input[data-day-key="' + escAttr(dayKey) + '"][data-box-id="' + escAttr(boxId) + '"]';
-        var nextInp = dom.prodTbody.querySelector(selector);
-        if (nextInp && document.activeElement !== nextInp) {
-          nextInp.focus();
+        var selector = 'input.qty-num-input[data-day="' + escapeAttr(dayKey) + '"][data-prod="' + escapeAttr(prodId) + '"]';
+        var restored = ui.sketchTbody.querySelector(selector);
+        if (restored && document.activeElement !== restored) {
+          restored.focus();
           try {
             if (typeof selStart === 'number' && typeof selEnd === 'number') {
-              nextInp.setSelectionRange(selStart, selEnd);
+              restored.setSelectionRange(selStart, selEnd);
             }
           } catch (err) {
-            // No aplica en tipos numéricos en ciertos navegadores
+            // Algunos navegadores no permiten setSelectionRange en input[type=number]
           }
         }
       });
 
-      function onIdentityChange() {
-        state.packerName = dom.packerInput.value.slice(0, 80);
-        state.packinghouseName = dom.packinghouseInput.value.slice(0, 80);
-        persistState();
+      function onIdentityInput() {
+        appState.packerName = ui.packerNameInput.value.slice(0, 80);
+        appState.packinghouseName = ui.packinghouseNameInput.value.slice(0, 80);
+        saveStorage();
 
-        var calc = calculateProduction();
-        renderIdentityAndWeek(calc);
+        var calc = computeTotals();
         renderSummaries(calc);
-        if (receiptOpen) renderReceipt(calc);
+        if (reportVisible) renderReport(calc);
       }
 
-      dom.packerInput.addEventListener('input', onIdentityChange);
-      dom.packinghouseInput.addEventListener('input', onIdentityChange);
+      ui.packerNameInput.addEventListener('input', onIdentityInput);
+      ui.packinghouseNameInput.addEventListener('input', onIdentityInput);
 
-      dom.weekStartInput.addEventListener('change', function () {
-        if (!dom.weekStartInput.value || !fromISO(dom.weekStartInput.value)) return;
-        state.startDate = dom.weekStartInput.value;
-        persistState();
+      ui.startDateInput.addEventListener('change', function () {
+        if (!ui.startDateInput.value || !parseLocalISO(ui.startDateInput.value)) return;
+        appState.startDate = ui.startDateInput.value;
+        saveStorage();
         renderAll();
-        showToast('Inicio de semana actualizado al ' + fmtDMY(state.startDate) + '.', 'info');
+        showToast('Fecha inicial actualizada al ' + formatFullDate(appState.startDate) + '.', 'info');
       });
 
-      document.querySelectorAll('.filter-pill').forEach(function (pill) {
-        pill.addEventListener('click', function () {
-          dayFilter = pill.getAttribute('data-filter') || 'all';
-          document.querySelectorAll('.filter-pill').forEach(function (btn) {
-            btn.classList.toggle('active', btn === pill);
-          });
-          renderMainTable(calculateProduction());
-        });
+      ui.toggleDatesBtn.addEventListener('click', function () {
+        appState.showDates = !appState.showDates;
+        saveStorage();
+        renderAll();
       });
 
-      dom.addBoxForm.addEventListener('submit', function (ev) {
+      ui.toggleExtraPanelBtn.addEventListener('click', function () {
+        extraPanelOpen = !extraPanelOpen;
+        renderTopCard();
+      });
+
+      ui.restoreSketchBtn.addEventListener('click', function () {
+        appState.products = cloneSketchProducts();
+        appState.quantities = buildQuantitiesGrid(appState.products, appState.quantities);
+        saveStorage();
+        renderAll();
+        showToast('Tarifas restauradas a la base del dibujo.', 'ok');
+      });
+
+      ui.addExtraBoxForm.addEventListener('submit', function (ev) {
         ev.preventDefault();
-        var name = dom.newBoxName.value.trim().slice(0, 32);
-        var rateVal = Number(dom.newBoxRate.value);
-        if (!name) {
-          showToast('Escribe el nombre de la presentación (por ejemplo: EURO).', 'err');
-          dom.newBoxName.focus();
+        var lbl = ui.extraBoxLabel.value.trim().slice(0, 32);
+        var pr = Number(ui.extraBoxPrice.value);
+        if (!lbl) {
+          showToast('Escribe el nombre de la presentación.', 'err');
+          ui.extraBoxLabel.focus();
           return;
         }
-        if (!Number.isFinite(rateVal) || rateVal < 0) {
-          showToast('Ingresa un costo válido mayor o igual a 0.', 'err');
-          dom.newBoxRate.focus();
+        if (!Number.isFinite(pr) || pr < 0) {
+          showToast('Escribe un importe válido mayor o igual a 0.', 'err');
+          ui.extraBoxPrice.focus();
           return;
         }
-
         var created = {
-          id: makeBoxId(name),
-          label: name.toUpperCase(),
-          rate: Math.round(rateVal * 10000) / 10000
+          id: createProductId(lbl),
+          label: lbl.toUpperCase(),
+          price: Math.round(pr * 10000) / 10000
         };
-        state.boxes.push(created);
-        state.entries = rebuildEntriesMap(state.boxes, state.entries);
-        persistState();
+        appState.products.push(created);
+        appState.quantities = buildQuantitiesGrid(appState.products, appState.quantities);
+        saveStorage();
 
-        dom.newBoxName.value = '';
-        dom.newBoxRate.value = '';
+        ui.extraBoxLabel.value = '';
+        ui.extraBoxPrice.value = '';
         renderAll();
-        showToast('Presentación "' + created.label + '" agregada (' + fmtCurrency(created.rate) + ').', 'ok');
+        showToast('Presentación "' + created.label + '" agregada (' + formatMoney(created.price) + ').', 'ok');
       });
 
-      dom.catalogGrid.addEventListener('change', function (ev) {
-        var target = ev.target;
-        if (!target) return;
+      ui.ratesEditorGrid.addEventListener('change', function (ev) {
+        var el = ev.target;
+        if (!el) return;
 
-        var lblId = target.getAttribute('data-edit-label');
+        var lblId = el.getAttribute('data-edit-prod-label');
         if (lblId) {
-          var nextLabel = target.value.trim().slice(0, 32);
-          for (var i = 0; i < state.boxes.length; i++) {
-            if (state.boxes[i].id === lblId) {
-              if (!nextLabel) {
-                target.value = state.boxes[i].label;
-                showToast('El nombre de la presentación no puede estar vacío.', 'err');
+          var nextLbl = el.value.trim().slice(0, 32);
+          for (var i = 0; i < appState.products.length; i++) {
+            if (appState.products[i].id === lblId) {
+              if (!nextLbl) {
+                el.value = appState.products[i].label;
+                showToast('El nombre no puede quedar vacío.', 'err');
                 return;
               }
-              state.boxes[i].label = nextLabel;
-              persistState();
+              appState.products[i].label = nextLbl;
+              saveStorage();
               renderAll();
-              showToast('Presentación renombrada a "' + nextLabel + '".', 'ok');
+              showToast('Presentación actualizada a "' + nextLbl + '".', 'ok');
               return;
             }
           }
         }
 
-        var rtId = target.getAttribute('data-edit-rate');
-        if (rtId) {
-          var nextRate = Number(target.value);
-          for (var j = 0; j < state.boxes.length; j++) {
-            if (state.boxes[j].id === rtId) {
-              if (!Number.isFinite(nextRate) || nextRate < 0) {
-                target.value = String(state.boxes[j].rate);
-                showToast('Ingresa un costo numérico válido.', 'err');
+        var prId = el.getAttribute('data-edit-prod-price');
+        if (prId) {
+          var nextPr = Number(el.value);
+          for (var j = 0; j < appState.products.length; j++) {
+            if (appState.products[j].id === prId) {
+              if (!Number.isFinite(nextPr) || nextPr < 0) {
+                el.value = String(appState.products[j].price);
+                showToast('Ingresa un importe numérico válido.', 'err');
                 return;
               }
-              state.boxes[j].rate = Math.round(nextRate * 10000) / 10000;
-              persistState();
+              appState.products[j].price = Math.round(nextPr * 10000) / 10000;
+              saveStorage();
               renderAll();
-              showToast('Costo de "' + state.boxes[j].label + '" actualizado a ' + fmtCurrency(state.boxes[j].rate) + '.', 'ok');
+              showToast('Importe de "' + appState.products[j].label + '" actualizado a ' + formatMoney(appState.products[j].price) + '.', 'ok');
               return;
             }
           }
         }
       });
 
-      dom.catalogGrid.addEventListener('click', function (ev) {
-        var btn = ev.target.closest ? ev.target.closest('[data-del-box]') : null;
+      ui.ratesEditorGrid.addEventListener('click', function (ev) {
+        var btn = ev.target.closest ? ev.target.closest('[data-del-prod]') : null;
         if (!btn) return;
-        if (state.boxes.length <= 1) {
-          showToast('Debe conservarse al menos una presentación.', 'err');
+        if (appState.products.length <= 1) {
+          showToast('Debe quedar al menos una presentación.', 'err');
           return;
         }
-        var delId = btn.getAttribute('data-del-box');
-        var delLabel = '';
-        state.boxes = state.boxes.filter(function (item) {
-          if (item.id === delId) {
-            delLabel = item.label;
+        var delId = btn.getAttribute('data-del-prod');
+        var removedLabel = '';
+        appState.products = appState.products.filter(function (p) {
+          if (p.id === delId) {
+            removedLabel = p.label;
             return false;
           }
           return true;
         });
-        state.entries = rebuildEntriesMap(state.boxes, state.entries);
-        persistState();
+        appState.quantities = buildQuantitiesGrid(appState.products, appState.quantities);
+        saveStorage();
         renderAll();
-        showToast('Presentación "' + delLabel + '" eliminada.', 'info');
+        showToast('Presentación "' + removedLabel + '" eliminada.', 'info');
       });
 
-      dom.resetCatalogBtn.addEventListener('click', function () {
-        state.boxes = cloneDefaultBoxes();
-        state.entries = rebuildEntriesMap(state.boxes, state.entries);
-        persistState();
+      ui.openResetBtn.addEventListener('click', function () {
+        ui.resetConfirmBox.classList.toggle('open');
+      });
+
+      ui.cancelResetBtn.addEventListener('click', function () {
+        ui.resetConfirmBox.classList.remove('open');
+      });
+
+      ui.confirmResetBtn.addEventListener('click', function () {
+        appState.quantities = buildQuantitiesGrid(appState.products, null);
+        saveStorage();
+        ui.resetConfirmBox.classList.remove('open');
         renderAll();
-        showToast('Se restauraron las 10 presentaciones NORMAL de Bell Pepper.', 'ok');
+        showToast('Semana reiniciada en 0.', 'info');
       });
 
-      dom.askResetBtn.addEventListener('click', function () {
-        dom.inlineConfirmBar.classList.toggle('open');
-      });
-
-      dom.cancelInlineReset.addEventListener('click', function () {
-        dom.inlineConfirmBar.classList.remove('open');
-      });
-
-      dom.confirmInlineReset.addEventListener('click', function () {
-        state.entries = rebuildEntriesMap(state.boxes, null);
-        persistState();
-        dom.inlineConfirmBar.classList.remove('open');
-        renderAll();
-        showToast('Cantidades de miércoles a martes reiniciadas en 0.', 'info');
-      });
-
-      dom.saveJsonBtn.addEventListener('click', function () {
+      ui.exportJsonBtn.addEventListener('click', function () {
         try {
-          var payload = JSON.stringify({
-            app: 'bell_pepper_individual_prod',
-            version: 2,
+          var content = JSON.stringify({
+            app: 'bell_pepper_sketch_table',
+            version: 1,
             exportedAt: new Date().toISOString(),
-            data: state
+            data: appState
           }, null, 2);
-          var blob = new Blob([payload], { type: 'application/json' });
+          var blob = new Blob([content], { type: 'application/json' });
           var url = URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          var safePacker = (state.packerName.trim() || 'empacador').toLowerCase().replace(/[^a-z0-9]+/g, '_');
-          a.href = url;
-          a.download = 'empaque_' + safePacker + '_' + state.startDate + '.json';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+          var link = document.createElement('a');
+          var empSlug = (appState.packerName.trim() || 'empacador').toLowerCase().replace(/[^a-z0-9]+/g, '_');
+          link.href = url;
+          link.download = 'empaque_' + empSlug + '_' + appState.startDate + '.json';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
           URL.revokeObjectURL(url);
-          showToast('Respaldo JSON descargado.', 'ok');
+          showToast('Respaldo JSON guardado.', 'ok');
         } catch (err) {
-          showToast('No se pudo exportar el archivo JSON.', 'err');
+          showToast('No se pudo exportar el JSON.', 'err');
         }
       });
 
-      dom.loadJsonBtn.addEventListener('click', function () {
-        dom.jsonFileInput.value = '';
-        dom.jsonFileInput.click();
+      ui.importJsonBtn.addEventListener('click', function () {
+        ui.jsonFileInput.value = '';
+        ui.jsonFileInput.click();
       });
 
-      dom.jsonFileInput.addEventListener('change', function () {
-        var file = dom.jsonFileInput.files && dom.jsonFileInput.files[0];
+      ui.jsonFileInput.addEventListener('change', function () {
+        var file = ui.jsonFileInput.files && ui.jsonFileInput.files[0];
         if (!file) return;
         var reader = new FileReader();
         reader.onload = function () {
           try {
             var parsed = JSON.parse(String(reader.result || ''));
-            var source = (parsed && parsed.data && typeof parsed.data === 'object') ? parsed.data : parsed;
-            state = normalizeAppState(source);
-            persistState();
+            var payload = (parsed && parsed.data && typeof parsed.data === 'object') ? parsed.data : parsed;
+            appState = sanitizeState(payload);
+            saveStorage();
             renderAll();
             showToast('Respaldo JSON cargado correctamente.', 'ok');
           } catch (err) {
-            showToast('El archivo JSON seleccionado no es válido.', 'err');
+            showToast('El archivo JSON no tiene un formato válido.', 'err');
           }
         };
         reader.onerror = function () {
-          showToast('Error al leer el archivo JSON.', 'err');
+          showToast('No se pudo leer el archivo seleccionado.', 'err');
         };
         reader.readAsText(file);
       });
 
-      dom.topReportBtn.addEventListener('click', generateReportReceipt);
-      dom.openReceiptTopBtn.addEventListener('click', generateReportReceipt);
-      dom.genReceiptBtn.addEventListener('click', generateReportReceipt);
+      ui.genReportTopBtn.addEventListener('click', triggerGenerateReport);
+      ui.genReportBottomBtn.addEventListener('click', triggerGenerateReport);
 
-      dom.hideReceiptBtn.addEventListener('click', function () {
-        receiptOpen = false;
-        renderReceipt(calculateProduction());
+      ui.hideReportBtn.addEventListener('click', function () {
+        reportVisible = false;
+        renderReport(computeTotals());
       });
 
-      dom.copyReceiptBtn.addEventListener('click', function () {
-        var txt = buildReceiptText(calculateProduction());
-        copyToClipboard(txt).then(function (ok) {
+      function copyWhatsAppHandler() {
+        var txt = buildWhatsAppReport(computeTotals());
+        copyText(txt).then(function (ok) {
           showToast(
-            ok ? 'Recibo individual copiado al portapapeles.' : 'No se pudo copiar el recibo.',
-            ok ? 'ok' : 'err'
-          );
-        });
-      });
-
-      function copyWaHandler() {
-        var txt = buildWhatsAppText(calculateProduction());
-        copyToClipboard(txt).then(function (ok) {
-          showToast(
-            ok ? 'Resumen individual copiado listo para WhatsApp.' : 'No se pudo copiar el resumen.',
+            ok ? 'Reporte copiado en texto limpio para WhatsApp.' : 'No se pudo copiar al portapapeles.',
             ok ? 'ok' : 'err'
           );
         });
       }
 
-      dom.topWaBtn.addEventListener('click', copyWaHandler);
-      dom.copyWaBtn.addEventListener('click', copyWaHandler);
+      ui.copyWaSummaryBtn.addEventListener('click', copyWhatsAppHandler);
+      ui.copyReceiptBtn.addEventListener('click', copyWhatsAppHandler);
 
-      function printHandler() {
-        receiptOpen = true;
-        if (!receiptIssuedAt) receiptIssuedAt = fmtNowStamp();
-        renderReceipt(calculateProduction());
+      ui.printReceiptBtn.addEventListener('click', function () {
+        reportVisible = true;
+        if (!reportEmittedAt) reportEmittedAt = formatNow();
+        renderReport(computeTotals());
         window.print();
-      }
+      });
 
-      dom.printReceiptBtn.addEventListener('click', printHandler);
-      dom.printSheetBtn.addEventListener('click', printHandler);
-
-      dom.closeToastBtn.addEventListener('click', function () {
-        dom.statusToast.classList.remove('show');
+      ui.closeToastBtn.addEventListener('click', function () {
+        ui.toastBar.classList.remove('show');
       });
 
       /* =====================================================================
-         INICIALIZACIÓN
+         ARRANQUE INICIAL
          ===================================================================== */
-      loadPersistedState();
+      loadStorage();
       renderAll();
     })();
   </script>
