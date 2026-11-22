@@ -1,0 +1,2076 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control de Empaque Semanal - Bell Pepper</title>
+  <style>
+    /* =====================================================================
+       1. VARIABLES Y ESTÉTICA TIPO iOS (MODO OSCURO + AZUL METÁLICO + LIMÓN)
+       ===================================================================== */
+    :root {
+      --bg-app: #121417;
+      --bg-card: #1c1f26;
+      --bg-elevated: #242832;
+      --bg-row-alt: #20242d;
+      --bg-input: #14171c;
+
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.16);
+
+      --text-primary: #f4f6f9;
+      --text-secondary: #b4bccb;
+      --text-muted: #7f8899;
+
+      /* Azul metálico */
+      --blue-metallic: linear-gradient(135deg, #1d4ed8 0%, #2563eb 45%, #38bdf8 85%, #60a5fa 100%);
+      --blue-metallic-dark: linear-gradient(180deg, #172f5c 0%, #10203e 100%);
+      --blue-accent: #38bdf8;
+      --blue-bright: #60a5fa;
+      --blue-soft: rgba(56, 189, 248, 0.14);
+      --blue-border: rgba(96, 165, 250, 0.38);
+
+      /* Verde limón */
+      --lime-grad: linear-gradient(135deg, #65a30d 0%, #84cc16 55%, #a3e635 100%);
+      --lime-bright: #a3e635;
+      --lime-main: #84cc16;
+      --lime-soft: rgba(163, 230, 53, 0.14);
+      --lime-border: rgba(163, 230, 53, 0.45);
+      --ink-on-lime: #0d1504;
+
+      /* Estados y alertas */
+      --danger-bg: rgba(239, 68, 68, 0.16);
+      --danger-border: rgba(248, 113, 113, 0.45);
+      --danger-text: #fca5a5;
+
+      /* Geometría y tipografía */
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 9px;
+      --shadow-ios: 0 14px 32px rgba(0, 0, 0, 0.45);
+      --font-ios: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: var(--bg-app);
+      color: var(--text-primary);
+      font-family: var(--font-ios);
+      font-variant-numeric: tabular-nums;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1560px;
+      margin: 0 auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .app-shell {
+        padding: 22px;
+        gap: 20px;
+      }
+    }
+
+    .ios-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-ios);
+      padding: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .ios-card {
+        padding: 20px 22px;
+      }
+    }
+
+    /* =====================================================================
+       2. ENCABEZADO Y CONFIGURACIÓN SEMANAL (MIÉRCOLES A MARTES)
+       ===================================================================== */
+    .header-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    @media (min-width: 1080px) {
+      .header-top-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+      }
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .pill-blue {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--blue-metallic);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .pill-lime {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--lime-grad);
+      color: var(--ink-on-lime);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 2.5vw, 1.9rem);
+      font-weight: 850;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+    }
+
+    .subtitle {
+      margin: 5px 0 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .meta-controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    @media (min-width: 640px) {
+      .meta-controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .meta-controls {
+        grid-template-columns: 220px 260px 1fr;
+        align-items: end;
+      }
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .control-group label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--blue-bright);
+    }
+
+    .ios-input {
+      width: 100%;
+      min-height: 42px;
+      background-color: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      padding: 9px 12px;
+      font-family: var(--font-ios);
+      font-size: 13px;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .ios-input:focus {
+      border-color: var(--lime-bright);
+      box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.2);
+    }
+
+    .range-badge-box {
+      min-height: 42px;
+      padding: 9px 14px;
+      border-radius: var(--radius-md);
+      background: var(--blue-soft);
+      border: 1px solid var(--blue-border);
+      color: #e0f2fe;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .range-badge-box span.tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--lime-soft);
+      border: 1px solid var(--lime-border);
+      color: var(--lime-bright);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    /* =====================================================================
+       3. TABLA PRINCIPAL SUPERIOR (TIRA HORIZONTAL CONTINUA)
+       ===================================================================== */
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .section-head p {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .strip-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-medium);
+      background-color: var(--bg-app);
+    }
+
+    table.strip-table {
+      width: 100%;
+      min-width: 1220px;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13px;
+    }
+
+    table.strip-table th,
+    table.strip-table td {
+      border-bottom: 1px solid var(--border-subtle);
+      border-right: 1px solid var(--border-subtle);
+      padding: 8px 7px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    table.strip-table th:last-child,
+    table.strip-table td:last-child {
+      border-right: none;
+    }
+
+    table.strip-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Columna fija izquierda: Día */
+    .th-day-sticky {
+      position: sticky;
+      left: 0;
+      z-index: 4;
+      min-width: 138px;
+      background: var(--blue-metallic);
+      color: #ffffff;
+      font-weight: 850;
+      text-align: left !important;
+      padding-left: 12px !important;
+      box-shadow: 2px 0 9px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Encabezados superiores: Presentaciones + tarifa NORMAL */
+    .th-pres {
+      min-width: 98px;
+      background: var(--blue-metallic-dark);
+      color: #f8fafc;
+      padding: 8px 5px !important;
+    }
+
+    .th-pres-name {
+      display: block;
+      font-size: 11px;
+      font-weight: 850;
+      color: #e2e8f0;
+      line-height: 1.2;
+    }
+
+    .th-pres-rate {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--lime-grad);
+      color: var(--ink-on-lime);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    /* Columna fija derecha: Ganancia del Día ($) */
+    .th-daily-sticky {
+      position: sticky;
+      right: 0;
+      z-index: 4;
+      min-width: 152px;
+      background: var(--lime-grad);
+      color: var(--ink-on-lime);
+      font-weight: 900;
+      font-size: 12px;
+      box-shadow: -2px 0 9px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Celdas de día */
+    .td-day-sticky {
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.24) 0%, var(--bg-card) 92%);
+      text-align: left !important;
+      padding-left: 12px !important;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .day-badge-line {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .day-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lime-bright);
+      flex-shrink: 0;
+    }
+
+    .day-label-txt {
+      font-size: 13px;
+      font-weight: 850;
+      color: #ffffff;
+    }
+
+    .day-date-txt {
+      display: block;
+      margin-top: 2px;
+      padding-left: 15px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue-bright);
+    }
+
+    /* Celdas de captura */
+    .td-qty {
+      background-color: var(--bg-elevated);
+    }
+
+    .day-row:nth-child(even) .td-qty {
+      background-color: var(--bg-row-alt);
+    }
+
+    .qty-box {
+      width: 76px;
+      height: 36px;
+      background-color: var(--bg-input);
+      color: var(--text-primary);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-family: var(--font-ios);
+      font-size: 13px;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.14s ease, box-shadow 0.14s ease, background-color 0.14s ease;
+    }
+
+    .qty-box::-webkit-outer-spin-button,
+    .qty-box::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .qty-box[type="number"] {
+      -moz-appearance: textfield;
+    }
+
+    .qty-box:focus {
+      border-color: var(--lime-bright);
+      box-shadow: 0 0 0 2px rgba(163, 230, 53, 0.25);
+    }
+
+    .qty-box.active-val {
+      border-color: var(--lime-border);
+      background-color: var(--lime-soft);
+      color: var(--lime-bright);
+      font-weight: 850;
+    }
+
+    .cell-sub {
+      display: block;
+      margin-top: 3px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .cell-sub.active-sub {
+      color: #bef264;
+    }
+
+    /* Columna fija derecha por fila */
+    .td-daily-sticky {
+      position: sticky;
+      right: 0;
+      z-index: 3;
+      background: linear-gradient(135deg, rgba(132, 204, 22, 0.22) 0%, var(--bg-card) 92%);
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .daily-gain-val {
+      display: block;
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--lime-bright);
+    }
+
+    .daily-units-val {
+      display: block;
+      margin-top: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    /* Totales al final de la tabla superior */
+    .tr-foot-units td {
+      background-color: #161a21;
+      color: #e2e8f0;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .tr-foot-units .td-day-sticky {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.32) 0%, #161a21 95%);
+      color: #bae6fd;
+    }
+
+    .tr-foot-money td {
+      background-color: #14181e;
+      color: var(--lime-bright);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .tr-foot-money .td-day-sticky {
+      background: linear-gradient(135deg, rgba(132, 204, 22, 0.22) 0%, #14181e 95%);
+      color: #bef264;
+    }
+
+    .tr-foot-total td {
+      background-color: #1f2530;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .tr-foot-total .td-day-sticky {
+      background: var(--blue-metallic);
+      color: #ffffff;
+    }
+
+    .tr-foot-total .td-daily-sticky {
+      background: var(--lime-grad);
+      color: var(--ink-on-lime);
+      font-size: 14px;
+    }
+
+    /* =====================================================================
+       4. SECCIÓN INFERIOR: RESÚMENES, ACCIONES Y GENERADOR DE RECIBO
+       ===================================================================== */
+    .bottom-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .total-strip-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, var(--bg-card) 52%, rgba(163, 230, 53, 0.16) 100%);
+      border: 1px solid var(--lime-border);
+      border-radius: var(--radius-xl);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    @media (min-width: 768px) {
+      .total-strip-card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .total-kicker {
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--lime-bright);
+    }
+
+    .total-desc {
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .kpi-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .kpi-tile {
+      background-color: var(--bg-app);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      padding: 10px 15px;
+      min-width: 155px;
+    }
+
+    .kpi-tile small {
+      display: block;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .kpi-tile strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--text-primary);
+    }
+
+    .kpi-tile.highlight-lime {
+      background-color: var(--lime-soft);
+      border-color: var(--lime-border);
+    }
+
+    .kpi-tile.highlight-lime strong {
+      color: var(--lime-bright);
+      font-size: 22px;
+    }
+
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 1024px) {
+      .two-col-grid {
+        grid-template-columns: 1fr 1.15fr;
+        align-items: start;
+      }
+    }
+
+    .table-box {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-app);
+    }
+
+    table.mini-grid {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    table.mini-grid th,
+    table.mini-grid td {
+      padding: 9px 11px;
+      border-bottom: 1px solid var(--border-subtle);
+      text-align: left;
+    }
+
+    table.mini-grid th {
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.28) 0%, rgba(163, 230, 53, 0.18) 100%);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    table.mini-grid th.num,
+    table.mini-grid td.num {
+      text-align: right;
+    }
+
+    table.mini-grid tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    table.mini-grid tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .text-lime {
+      color: var(--lime-bright);
+      font-weight: 800;
+    }
+
+    .text-blue {
+      color: var(--blue-bright);
+      font-weight: 800;
+    }
+
+    /* Botones tipo iOS */
+    .btn-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .ios-btn {
+      appearance: none;
+      border: 1px solid var(--border-medium);
+      background-color: var(--bg-elevated);
+      color: var(--text-primary);
+      font-family: var(--font-ios);
+      font-size: 13px;
+      font-weight: 750;
+      padding: 10px 15px;
+      min-height: 40px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: transform 0.12s ease, filter 0.15s ease;
+    }
+
+    .ios-btn:hover {
+      filter: brightness(1.08);
+    }
+
+    .ios-btn:active {
+      transform: scale(0.98);
+    }
+
+    .ios-btn-lime {
+      background: var(--lime-grad);
+      color: var(--ink-on-lime);
+      border-color: var(--lime-border);
+      font-weight: 850;
+    }
+
+    .ios-btn-blue {
+      background: var(--blue-metallic);
+      color: #ffffff;
+      border-color: var(--blue-border);
+      font-weight: 850;
+    }
+
+    .ios-btn-danger {
+      background-color: var(--danger-bg);
+      color: var(--danger-text);
+      border-color: var(--danger-border);
+    }
+
+    .ios-btn-sm {
+      min-height: 34px;
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .wa-box {
+      margin-top: 12px;
+      background-color: var(--bg-app);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--text-secondary);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* =====================================================================
+       5. FORMATO TIPO RECIBO GENERADO AL PULSAR "GENERAR REPORTE"
+       ===================================================================== */
+    .receipt-panel {
+      margin-top: 14px;
+      display: none;
+    }
+
+    .receipt-panel.visible {
+      display: block;
+    }
+
+    .receipt-sheet {
+      max-width: 680px;
+      margin: 0 auto;
+      background-color: #161920;
+      border: 1px solid var(--blue-border);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+    }
+
+    .receipt-top {
+      background: var(--blue-metallic);
+      color: #ffffff;
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .receipt-top h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+    }
+
+    .receipt-top span.receipt-tag {
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--lime-grad);
+      color: var(--ink-on-lime);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .receipt-meta {
+      padding: 12px 20px;
+      background-color: var(--bg-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .receipt-meta strong {
+      color: var(--text-primary);
+    }
+
+    .receipt-rows {
+      padding: 8px 20px;
+    }
+
+    .receipt-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px dashed var(--border-medium);
+    }
+
+    .receipt-line:last-child {
+      border-bottom: none;
+    }
+
+    .receipt-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .receipt-day {
+      font-size: 14px;
+      font-weight: 850;
+      color: var(--blue-bright);
+    }
+
+    .receipt-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .receipt-right {
+      text-align: right;
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--lime-bright);
+    }
+
+    .receipt-footer-total {
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.16) 0%, rgba(163, 230, 53, 0.2) 100%);
+      border-top: 2px solid var(--lime-border);
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .receipt-total-label {
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #e2e8f0;
+    }
+
+    .receipt-total-sub {
+      display: block;
+      margin-top: 3px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .receipt-total-amount {
+      font-size: 23px;
+      font-weight: 950;
+      color: var(--lime-bright);
+    }
+
+    .receipt-actions {
+      max-width: 680px;
+      margin: 12px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* Banner de estado en pantalla */
+    .status-banner {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 15px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid var(--border-medium);
+      background-color: var(--bg-elevated);
+    }
+
+    .status-banner.show {
+      display: flex;
+    }
+
+    .status-banner.ok {
+      background-color: var(--lime-soft);
+      border-color: var(--lime-border);
+      color: #ecfccb;
+    }
+
+    .status-banner.info {
+      background-color: var(--blue-soft);
+      border-color: var(--blue-border);
+      color: #e0f2fe;
+    }
+
+    .status-banner.err {
+      background-color: var(--danger-bg);
+      border-color: var(--danger-border);
+      color: var(--danger-text);
+    }
+
+    /* Modal de confirmación sin alert/confirm */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 11, 0.74);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 70;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 420px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-ios);
+      padding: 20px;
+    }
+
+    .modal-card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      font-weight: 850;
+    }
+
+    .modal-card p {
+      margin: 0 0 18px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* Impresión limpia solo del recibo cuando está visible */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #111827 !important;
+      }
+      .app-shell > header,
+      .app-shell > main,
+      .app-shell > .status-banner,
+      .bottom-stack > .total-strip-card,
+      .bottom-stack > .two-col-grid,
+      .bottom-stack > .tools-card > .section-head,
+      .bottom-stack > .tools-card > .wa-box,
+      .receipt-actions,
+      .modal-backdrop {
+        display: none !important;
+      }
+      .bottom-stack > .tools-card.ios-card {
+        border: none !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      .receipt-panel.visible {
+        display: block !important;
+        margin-top: 0 !important;
+      }
+      .receipt-sheet {
+        max-width: 100% !important;
+        border: 1px solid #cbd5e1 !important;
+        background: #ffffff !important;
+        color: #111827 !important;
+        box-shadow: none !important;
+      }
+      .receipt-top {
+        background: #1d4ed8 !important;
+        color: #ffffff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .receipt-meta {
+        background: #f8fafc !important;
+        color: #334155 !important;
+      }
+      .receipt-meta strong,
+      .receipt-day,
+      .receipt-right,
+      .receipt-total-label,
+      .receipt-total-amount {
+        color: #0f172a !important;
+      }
+      .receipt-footer-total {
+        background: #f1f5f9 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ===================================================================
+         1. ENCABEZADO Y CONFIGURACIÓN DE SEMANA (MIÉRCOLES A MARTES)
+         =================================================================== -->
+    <header class="ios-card header-grid">
+      <div class="header-top-row">
+        <div>
+          <div class="pill-row">
+            <span class="pill-blue">Bell Pepper · Tarifa NORMAL</span>
+            <span class="pill-lime">Semana Miércoles a Martes</span>
+          </div>
+          <h1>Control de Empaque Semanal - Bell Pepper</h1>
+          <p class="subtitle">
+            Captura arriba las cajas empacadas diarias por presentación; abajo consulta los resúmenes y genera tu recibo semanal.
+          </p>
+        </div>
+      </div>
+
+      <div class="meta-controls">
+        <div class="control-group">
+          <label for="week-start-date">Inicio de semana (Miércoles)</label>
+          <input type="date" id="week-start-date" class="ios-input" />
+        </div>
+
+        <div class="control-group">
+          <label>Rango de la semana (Mié — Mar)</label>
+          <div id="week-range-label" class="range-badge-box">
+            <span id="week-range-dates">—</span>
+            <span class="tag">Mié → Mar</span>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="worker-ref-input">Empacador o referencia de semana (opcional)</label>
+          <input
+            type="text"
+            id="worker-ref-input"
+            class="ios-input"
+            maxlength="80"
+            placeholder="Ej. Carlos Mendoza / Lote Norte Semana 47"
+          />
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================================================================
+         2. ARRIBA: TABLA PRINCIPAL EN TIRA HORIZONTAL CONTINUA
+         =================================================================== -->
+    <main class="ios-card" aria-label="Tabla principal de captura diaria">
+      <div class="section-head">
+        <div>
+          <h2>Captura Diaria por Presentación (Miércoles a Martes)</h2>
+          <p>Teclea las cantidades de cada presentación; a la derecha aparece la Ganancia del Día ($) y abajo los totales.</p>
+        </div>
+        <span class="pill-blue" id="header-week-pill">Mié — Mar</span>
+      </div>
+
+      <div class="strip-wrapper">
+        <table class="strip-table" id="main-strip-table">
+          <thead id="main-strip-thead"></thead>
+          <tbody id="main-strip-tbody"></tbody>
+          <tfoot id="main-strip-tfoot"></tfoot>
+        </table>
+      </div>
+    </main>
+
+    <!-- Aviso en pantalla -->
+    <div id="status-banner" class="status-banner" role="status" aria-live="polite">
+      <span id="status-banner-msg"></span>
+      <button type="button" id="close-banner-btn" class="ios-btn ios-btn-sm">Cerrar</button>
+    </div>
+
+    <!-- ===================================================================
+         3. ABAJO: RESÚMENES, ACCIONES Y GENERADOR DE RECIBO
+         =================================================================== -->
+    <section class="bottom-stack" aria-label="Resúmenes y generación de recibo">
+      <!-- Resumen general de toda la semana -->
+      <div class="total-strip-card">
+        <div>
+          <div class="total-kicker">Resumen Semanal Acumulado</div>
+          <div id="week-summary-caption" class="total-desc">
+            Miércoles a Martes · Tarifas NORMAL aplicadas automáticamente
+          </div>
+        </div>
+        <div class="kpi-group">
+          <div class="kpi-tile">
+            <small>Total Piezas Semana</small>
+            <strong id="kpi-total-units">0</strong>
+          </div>
+          <div class="kpi-tile highlight-lime">
+            <small>Total Ganancia Semana ($)</small>
+            <strong id="kpi-total-money">$0.00 MXN</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dos tablas de desglose: Diario con acumulado y Por presentación -->
+      <div class="two-col-grid">
+        <div class="ios-card">
+          <div class="section-head">
+            <div>
+              <h2>Resumen Diario y Acumulado</h2>
+              <p>Ganancia diaria y acumulado progresivo de miércoles a martes.</p>
+            </div>
+          </div>
+          <div class="table-box">
+            <table class="mini-grid">
+              <thead>
+                <tr>
+                  <th>Día</th>
+                  <th class="num">Piezas</th>
+                  <th class="num">Ganancia Día</th>
+                  <th class="num">Acumulado</th>
+                </tr>
+              </thead>
+              <tbody id="daily-breakdown-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="ios-card">
+          <div class="section-head">
+            <div>
+              <h2>Desglose por Presentación (NORMAL)</h2>
+              <p>Total de piezas e importe generado por cada presentación.</p>
+            </div>
+          </div>
+          <div class="table-box">
+            <table class="mini-grid">
+              <thead>
+                <tr>
+                  <th>Presentación</th>
+                  <th class="num">Tarifa</th>
+                  <th class="num">Piezas</th>
+                  <th class="num">Importe ($)</th>
+                </tr>
+              </thead>
+              <tbody id="pres-breakdown-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Herramientas, WhatsApp, JSON, Reinicio y Generador de Recibo -->
+      <div class="ios-card tools-card">
+        <div class="section-head">
+          <div>
+            <h2>Reporte, Recibo Semanal y Respaldo</h2>
+            <p>Genera un recibo tipo comprobante o copia/respalda los datos de tu semana.</p>
+          </div>
+          <div class="btn-bar">
+            <button type="button" id="generate-receipt-btn" class="ios-btn ios-btn-lime">Generar Reporte</button>
+            <button type="button" id="copy-wa-btn" class="ios-btn ios-btn-blue">Copiar WhatsApp</button>
+            <button type="button" id="export-json-btn" class="ios-btn">Guardar JSON</button>
+            <button type="button" id="import-json-btn" class="ios-btn">Cargar JSON</button>
+            <input type="file" id="import-json-input" accept="application/json,.json" hidden />
+            <button type="button" id="reset-btn" class="ios-btn ios-btn-danger">Reiniciar Semana</button>
+          </div>
+        </div>
+
+        <!-- Recibo generado al pulsar "Generar Reporte" -->
+        <div id="receipt-panel" class="receipt-panel" aria-live="polite">
+          <div class="receipt-sheet" id="receipt-sheet">
+            <div class="receipt-top">
+              <div>
+                <h3>RECIBO SEMANAL DE EMPAQUE · BELL PEPPER</h3>
+                <div style="font-size:12px;opacity:0.92;margin-top:2px;">Tarifa NORMAL · Ciclo Miércoles a Martes</div>
+              </div>
+              <span class="receipt-tag">Comprobante</span>
+            </div>
+
+            <div class="receipt-meta">
+              <div><strong>Periodo:</strong> <span id="rcp-period">—</span></div>
+              <div><strong>Empacador / Ref.:</strong> <span id="rcp-worker">Sin especificar</span></div>
+              <div><strong>Generado:</strong> <span id="rcp-generated-at">—</span></div>
+            </div>
+
+            <div class="receipt-rows" id="rcp-days-list"></div>
+
+            <div class="receipt-footer-total">
+              <div class="receipt-total-label">
+                TOTAL A GANAR AL FIN DE LA SEMANA
+                <span class="receipt-total-sub" id="rcp-total-units-line">Total empacado: 0 piezas</span>
+              </div>
+              <div class="receipt-total-amount" id="rcp-grand-total">$0.00 MXN</div>
+            </div>
+          </div>
+
+          <div class="receipt-actions">
+            <button type="button" id="copy-receipt-btn" class="ios-btn ios-btn-blue ios-btn-sm">Copiar Recibo</button>
+            <button type="button" id="print-receipt-btn" class="ios-btn ios-btn-sm">Imprimir / Guardar PDF</button>
+            <button type="button" id="hide-receipt-btn" class="ios-btn ios-btn-sm">Ocultar Recibo</button>
+          </div>
+        </div>
+
+        <!-- Vista previa rápida para WhatsApp -->
+        <div id="wa-preview" class="wa-box"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal de confirmación en pantalla (sin alert ni confirm) -->
+  <div id="reset-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
+    <div class="modal-card">
+      <h3 id="reset-modal-title">¿Reiniciar cantidades de la semana?</h3>
+      <p>
+        Se pondrán en cero todas las piezas capturadas de miércoles a martes. Se conservarán la fecha de inicio de semana y el nombre o referencia.
+      </p>
+      <div class="modal-footer">
+        <button type="button" id="cancel-reset-btn" class="ios-btn ios-btn-sm">Cancelar</button>
+        <button type="button" id="confirm-reset-btn" class="ios-btn ios-btn-danger ios-btn-sm">Sí, reiniciar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* =====================================================================
+         CATÁLOGO NORMAL (FOTO "PRECIO CAJA EMPACADA DE BELL PEPPER")
+         ===================================================================== */
+      var STORAGE_KEY = 'bell_pepper_empaque_semanal_v2';
+
+      var PRESENTATIONS = [
+        { id: '25lb',          label: '25#',           rate: 2.00 },
+        { id: '15lb',          label: '15#',           rate: 1.50 },
+        { id: '5lb',           label: '5#',            rate: 0.50 },
+        { id: 'rpc',           label: 'RPC',           rate: 2.50 },
+        { id: 'bolsa_8_6',     label: 'BOLSA 8/6',     rate: 2.20 },
+        { id: 'bolsa_20_4',    label: 'BOLSA 20/4',    rate: 3.50 },
+        { id: 'bolsa_10_4',    label: 'BOLSA 10/4',    rate: 1.50 },
+        { id: 'estibar_25lb',  label: 'ESTIBAR 25#',   rate: 0.24 },
+        { id: 'estibar_15lb',  label: 'ESTIBAR 15#',   rate: 0.20 },
+        { id: 'carga_trailer', label: 'CARGA TRAILER', rate: 170.00 }
+      ];
+
+      var WEEK_DAYS = [
+        { key: 'miercoles', name: 'Miércoles', shortName: 'Mié', offset: 0 },
+        { key: 'jueves',    name: 'Jueves',    shortName: 'Jue', offset: 1 },
+        { key: 'viernes',   name: 'Viernes',   shortName: 'Vie', offset: 2 },
+        { key: 'sabado',    name: 'Sábado',    shortName: 'Sáb', offset: 3 },
+        { key: 'domingo',   name: 'Domingo',   shortName: 'Dom', offset: 4 },
+        { key: 'lunes',     name: 'Lunes',     shortName: 'Lun', offset: 5 },
+        { key: 'martes',    name: 'Martes',    shortName: 'Mar', offset: 6 }
+      ];
+
+      function createEmptyQuantities() {
+        var map = {};
+        for (var d = 0; d < WEEK_DAYS.length; d++) {
+          var dayKey = WEEK_DAYS[d].key;
+          map[dayKey] = {};
+          for (var p = 0; p < PRESENTATIONS.length; p++) {
+            map[dayKey][PRESENTATIONS[p].id] = 0;
+          }
+        }
+        return map;
+      }
+
+      /* =====================================================================
+         MANEJO DE FECHAS LOCALES Y MIÉRCOLES DE LA SEMANA ACTUAL
+         ===================================================================== */
+      function toISO(dateObj) {
+        var y = dateObj.getFullYear();
+        var m = String(dateObj.getMonth() + 1).padStart(2, '0');
+        var d = String(dateObj.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + d;
+      }
+
+      function fromISO(isoStr) {
+        if (!isoStr || typeof isoStr !== 'string') return null;
+        var parts = isoStr.split('-');
+        if (parts.length !== 3) return null;
+        var y = Number(parts[0]);
+        var m = Number(parts[1]);
+        var d = Number(parts[2]);
+        if (!Number.isInteger(y) || !Number.isInteger(m) || !Number.isInteger(d)) return null;
+        var dt = new Date(y, m - 1, d);
+        if (dt.getFullYear() !== y || dt.getMonth() !== m - 1 || dt.getDate() !== d) return null;
+        return dt;
+      }
+
+      function addDaysISO(isoStr, days) {
+        var dt = fromISO(isoStr);
+        if (!dt) return '';
+        dt.setDate(dt.getDate() + days);
+        return toISO(dt);
+      }
+
+      function getCurrentWeekWednesdayISO() {
+        var now = new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        // getDay(): 0=Dom, 1=Lun, 2=Mar, 3=Mié, 4=Jue, 5=Vie, 6=Sáb
+        // Desplazamiento desde el miércoles anterior o actual: (dayOfWeek + 4) % 7
+        var diffFromWed = (today.getDay() + 4) % 7;
+        today.setDate(today.getDate() - diffFromWed);
+        return toISO(today);
+      }
+
+      function fmtDM(isoStr) {
+        var dt = fromISO(isoStr);
+        if (!dt) return '—';
+        return String(dt.getDate()).padStart(2, '0') + '/' + String(dt.getMonth() + 1).padStart(2, '0');
+      }
+
+      function fmtDMY(isoStr) {
+        var dt = fromISO(isoStr);
+        if (!dt) return '—';
+        return (
+          String(dt.getDate()).padStart(2, '0') + '/' +
+          String(dt.getMonth() + 1).padStart(2, '0') + '/' +
+          dt.getFullYear()
+        );
+      }
+
+      function fmtNowStamp() {
+        var now = new Date();
+        return (
+          fmtDMY(toISO(now)) + ' ' +
+          String(now.getHours()).padStart(2, '0') + ':' +
+          String(now.getMinutes()).padStart(2, '0')
+        );
+      }
+
+      /* =====================================================================
+         FORMATO MONETARIO Y ESCAPE
+         ===================================================================== */
+      function fmtMoney(val) {
+        var num = Number(val);
+        if (!Number.isFinite(num)) num = 0;
+        return '$' + num.toLocaleString('es-MX', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+      }
+
+      function fmtMXN(val) {
+        return fmtMoney(val) + ' MXN';
+      }
+
+      function fmtInt(val) {
+        var num = Math.round(Number(val));
+        if (!Number.isFinite(num)) num = 0;
+        return num.toLocaleString('es-MX');
+      }
+
+      function escHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function escapeAttr(str) {
+        if (window.CSS && typeof window.CSS.escape === 'function') {
+          return window.CSS.escape(str);
+        }
+        return String(str).replace(/([^a-zA-Z0-9_-])/g, '\\$1');
+      }
+
+      /* =====================================================================
+         ESTADO Y PERSISTENCIA
+         ===================================================================== */
+      var state = {
+        startDate: getCurrentWeekWednesdayISO(),
+        workerRef: '',
+        quantities: createEmptyQuantities()
+      };
+
+      var receiptVisible = false;
+      var receiptGeneratedStamp = '';
+
+      function normalizeState(raw) {
+        var cleanQty = createEmptyQuantities();
+        if (raw && raw.quantities && typeof raw.quantities === 'object') {
+          for (var d = 0; d < WEEK_DAYS.length; d++) {
+            var key = WEEK_DAYS[d].key;
+            var dayObj = raw.quantities[key];
+            if (dayObj && typeof dayObj === 'object') {
+              for (var p = 0; p < PRESENTATIONS.length; p++) {
+                var pId = PRESENTATIONS[p].id;
+                var n = Math.round(Number(dayObj[pId]));
+                if (Number.isFinite(n) && n > 0) {
+                  cleanQty[key][pId] = n;
+                }
+              }
+            }
+          }
+        }
+
+        var candidateDate = raw && typeof raw.startDate === 'string' ? raw.startDate : '';
+        var validDate = fromISO(candidateDate) ? candidateDate : getCurrentWeekWednesdayISO();
+        var worker = raw && typeof raw.workerRef === 'string' ? raw.workerRef.slice(0, 80) : '';
+
+        return {
+          startDate: validDate,
+          workerRef: worker,
+          quantities: cleanQty
+        };
+      }
+
+      function persistState() {
+        try {
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (err) {
+          showBanner('No se pudo guardar en localStorage; los cambios siguen activos en esta sesión.', 'info');
+        }
+      }
+
+      function restoreState() {
+        try {
+          var rawStr = window.localStorage.getItem(STORAGE_KEY);
+          if (!rawStr) {
+            state = normalizeState(null);
+            return;
+          }
+          state = normalizeState(JSON.parse(rawStr));
+        } catch (err) {
+          state = normalizeState(null);
+          showBanner('Se inició una semana limpia al detectar datos guardados no válidos.', 'info');
+        }
+      }
+
+      /* =====================================================================
+         REFERENCIAS DOM
+         ===================================================================== */
+      var dom = {
+        weekStartDate: document.getElementById('week-start-date'),
+        weekRangeDates: document.getElementById('week-range-dates'),
+        workerRefInput: document.getElementById('worker-ref-input'),
+        headerWeekPill: document.getElementById('header-week-pill'),
+
+        mainStripThead: document.getElementById('main-strip-thead'),
+        mainStripTbody: document.getElementById('main-strip-tbody'),
+        mainStripTfoot: document.getElementById('main-strip-tfoot'),
+
+        statusBanner: document.getElementById('status-banner'),
+        statusBannerMsg: document.getElementById('status-banner-msg'),
+        closeBannerBtn: document.getElementById('close-banner-btn'),
+
+        weekSummaryCaption: document.getElementById('week-summary-caption'),
+        kpiTotalUnits: document.getElementById('kpi-total-units'),
+        kpiTotalMoney: document.getElementById('kpi-total-money'),
+
+        dailyBreakdownTbody: document.getElementById('daily-breakdown-tbody'),
+        presBreakdownTbody: document.getElementById('pres-breakdown-tbody'),
+
+        generateReceiptBtn: document.getElementById('generate-receipt-btn'),
+        copyWaBtn: document.getElementById('copy-wa-btn'),
+        exportJsonBtn: document.getElementById('export-json-btn'),
+        importJsonBtn: document.getElementById('import-json-btn'),
+        importJsonInput: document.getElementById('import-json-input'),
+        resetBtn: document.getElementById('reset-btn'),
+
+        receiptPanel: document.getElementById('receipt-panel'),
+        rcpPeriod: document.getElementById('rcp-period'),
+        rcpWorker: document.getElementById('rcp-worker'),
+        rcpGeneratedAt: document.getElementById('rcp-generated-at'),
+        rcpDaysList: document.getElementById('rcp-days-list'),
+        rcpTotalUnitsLine: document.getElementById('rcp-total-units-line'),
+        rcpGrandTotal: document.getElementById('rcp-grand-total'),
+
+        copyReceiptBtn: document.getElementById('copy-receipt-btn'),
+        printReceiptBtn: document.getElementById('print-receipt-btn'),
+        hideReceiptBtn: document.getElementById('hide-receipt-btn'),
+
+        waPreview: document.getElementById('wa-preview'),
+
+        resetModal: document.getElementById('reset-modal'),
+        cancelResetBtn: document.getElementById('cancel-reset-btn'),
+        confirmResetBtn: document.getElementById('confirm-reset-btn')
+      };
+
+      var bannerTimer = null;
+
+      function showBanner(text, kind) {
+        if (!dom.statusBanner || !dom.statusBannerMsg) return;
+        dom.statusBannerMsg.textContent = text;
+        dom.statusBanner.classList.remove('show', 'ok', 'info', 'err');
+        if (kind === 'ok') dom.statusBanner.classList.add('ok');
+        else if (kind === 'err') dom.statusBanner.classList.add('err');
+        else dom.statusBanner.classList.add('info');
+        dom.statusBanner.classList.add('show');
+
+        if (bannerTimer) window.clearTimeout(bannerTimer);
+        bannerTimer = window.setTimeout(function () {
+          dom.statusBanner.classList.remove('show');
+        }, 4200);
+      }
+
+      /* =====================================================================
+         CÁLCULOS SEMANALES
+         ===================================================================== */
+      function calculateWeek() {
+        var presUnits = {};
+        var presMoney = {};
+        for (var p = 0; p < PRESENTATIONS.length; p++) {
+          presUnits[PRESENTATIONS[p].id] = 0;
+          presMoney[PRESENTATIONS[p].id] = 0;
+        }
+
+        var days = [];
+        var runningCum = 0;
+        var totalUnits = 0;
+        var totalMoney = 0;
+
+        for (var d = 0; d < WEEK_DAYS.length; d++) {
+          var dayDef = WEEK_DAYS[d];
+          var iso = addDaysISO(state.startDate, dayDef.offset);
+          var dayQtyMap = state.quantities[dayDef.key] || {};
+
+          var dayUnits = 0;
+          var dayMoney = 0;
+          var cellData = {};
+
+          for (var i = 0; i < PRESENTATIONS.length; i++) {
+            var pres = PRESENTATIONS[i];
+            var q = Math.max(0, Math.round(Number(dayQtyMap[pres.id]) || 0));
+            var sub = q * pres.rate;
+
+            cellData[pres.id] = { qty: q, money: sub };
+            dayUnits += q;
+            dayMoney += sub;
+            presUnits[pres.id] += q;
+            presMoney[pres.id] += sub;
+          }
+
+          runningCum += dayMoney;
+          totalUnits += dayUnits;
+          totalMoney += dayMoney;
+
+          days.push({
+            key: dayDef.key,
+            name: dayDef.name,
+            shortName: dayDef.shortName,
+            iso: iso,
+            shortLabel: dayDef.shortName + ' ' + fmtDM(iso),
+            fullDayDate: dayDef.name + ' ' + fmtDMY(iso),
+            cells: cellData,
+            units: dayUnits,
+            money: dayMoney,
+            cumulative: runningCum
+          });
+        }
+
+        return {
+          days: days,
+          presUnits: presUnits,
+          presMoney: presMoney,
+          totalUnits: totalUnits,
+          totalMoney: totalMoney
+        };
+      }
+
+      /* =====================================================================
+         RENDERIZADO DE CABECERA, TIRA SUPERIOR, RESÚMENES Y RECIBO
+         ===================================================================== */
+      function renderHeaderMeta() {
+        var startISO = state.startDate;
+        var endISO = addDaysISO(startISO, 6);
+        dom.weekStartDate.value = startISO;
+        dom.weekRangeDates.textContent = fmtDMY(startISO) + ' — ' + fmtDMY(endISO);
+        dom.headerWeekPill.textContent = 'Mié ' + fmtDM(startISO) + ' — Mar ' + fmtDM(endISO);
+        dom.workerRefInput.value = state.workerRef;
+        dom.weekSummaryCaption.textContent =
+          'Semana del ' + fmtDMY(startISO) + ' al ' + fmtDMY(endISO) + ' · Tarifas NORMAL';
+      }
+
+      function renderMainStrip(calc) {
+        var headCells = '';
+        for (var p = 0; p < PRESENTATIONS.length; p++) {
+          var pres = PRESENTATIONS[p];
+          headCells +=
+            '<th class="th-pres">' +
+              '<span class="th-pres-name">' + escHtml(pres.label) + '</span>' +
+              '<span class="th-pres-rate">' + fmtMoney(pres.rate) + '</span>' +
+            '</th>';
+        }
+
+        dom.mainStripThead.innerHTML =
+          '<tr>' +
+            '<th class="th-day-sticky">Día / Fecha</th>' +
+            headCells +
+            '<th class="th-daily-sticky">Ganancia del Día ($)</th>' +
+          '</tr>';
+
+        var bodyHtml = '';
+        for (var d = 0; d < calc.days.length; d++) {
+          var day = calc.days[d];
+          var cellsHtml = '';
+
+          for (var c = 0; c < PRESENTATIONS.length; c++) {
+            var item = PRESENTATIONS[c];
+            var cObj = day.cells[item.id] || { qty: 0, money: 0 };
+            var hasVal = cObj.qty > 0;
+
+            cellsHtml +=
+              '<td class="td-qty">' +
+                '<input ' +
+                  'type="number" ' +
+                  'min="0" ' +
+                  'step="1" ' +
+                  'inputmode="numeric" ' +
+                  'class="qty-box' + (hasVal ? ' active-val' : '') + '" ' +
+                  'data-day="' + escHtml(day.key) + '" ' +
+                  'data-pres="' + escHtml(item.id) + '" ' +
+                  'aria-label="' + escHtml(day.name + ' ' + item.label) + '" ' +
+                  'value="' + (hasVal ? cObj.qty : '') + '" ' +
+                  'placeholder="0" ' +
+                '/>' +
+                '<span class="cell-sub' + (cObj.money > 0 ? ' active-sub' : '') + '">' +
+                  (cObj.money > 0 ? fmtMoney(cObj.money) : '—') +
+                '</span>' +
+              '</td>';
+          }
+
+          bodyHtml +=
+            '<tr class="day-row">' +
+              '<td class="td-day-sticky">' +
+                '<div class="day-badge-line">' +
+                  '<span class="day-dot"></span>' +
+                  '<span class="day-label-txt">' + escHtml(day.name) + '</span>' +
+                '</div>' +
+                '<span class="day-date-txt">' + escHtml(day.shortLabel) + '</span>' +
+              '</td>' +
+              cellsHtml +
+              '<td class="td-daily-sticky">' +
+                '<span class="daily-gain-val">' + fmtMXN(day.money) + '</span>' +
+                '<span class="daily-units-val">' + fmtInt(day.units) + ' pzas</span>' +
+              '</td>' +
+            '</tr>';
+        }
+
+        dom.mainStripTbody.innerHTML = bodyHtml;
+
+        var footUnits = '';
+        var footMoney = '';
+        for (var f = 0; f < PRESENTATIONS.length; f++) {
+          var fPres = PRESENTATIONS[f];
+          footUnits += '<td>' + fmtInt(calc.presUnits[fPres.id] || 0) + '</td>';
+          footMoney += '<td>' + fmtMoney(calc.presMoney[fPres.id] || 0) + '</td>';
+        }
+
+        dom.mainStripTfoot.innerHTML =
+          '<tr class="tr-foot-units">' +
+            '<td class="td-day-sticky">Total Piezas Sem.</td>' +
+            footUnits +
+            '<td class="td-daily-sticky" style="background:#161c26;color:#bae6fd;">' +
+              fmtInt(calc.totalUnits) + ' pzas' +
+            '</td>' +
+          '</tr>' +
+          '<tr class="tr-foot-money">' +
+            '<td class="td-day-sticky">Total ($) x Caja</td>' +
+            footMoney +
+            '<td class="td-daily-sticky" style="background:#151b14;color:#bef264;">' +
+              fmtMoney(calc.totalMoney) +
+            '</td>' +
+          '</tr>' +
+          '<tr class="tr-foot-total">' +
+            '<td class="td-day-sticky">TOTAL SEMANA ($)</td>' +
+            '<td colspan="' + PRESENTATIONS.length + '" style="text-align:left;padding-left:14px;color:#cbd5e1;">' +
+              'Suma total generada de Miércoles a Martes (tarifa NORMAL)' +
+            '</td>' +
+            '<td class="td-daily-sticky">' + fmtMXN(calc.totalMoney) + '</td>' +
+          '</tr>';
+      }
+
+      function renderSummaries(calc) {
+        dom.kpiTotalUnits.textContent = fmtInt(calc.totalUnits);
+        dom.kpiTotalMoney.textContent = fmtMXN(calc.totalMoney);
+
+        var dailyRows = '';
+        for (var d = 0; d < calc.days.length; d++) {
+          var day = calc.days[d];
+          dailyRows +=
+            '<tr>' +
+              '<td><strong>' + escHtml(day.name) + '</strong> <span style="color:var(--text-muted);font-size:11px;">' + fmtDM(day.iso) + '</span></td>' +
+              '<td class="num">' + fmtInt(day.units) + '</td>' +
+              '<td class="num text-lime">' + fmtMoney(day.money) + '</td>' +
+              '<td class="num text-blue">' + fmtMoney(day.cumulative) + '</td>' +
+            '</tr>';
+        }
+        dom.dailyBreakdownTbody.innerHTML = dailyRows;
+
+        var presRows = '';
+        for (var p = 0; p < PRESENTATIONS.length; p++) {
+          var pres = PRESENTATIONS[p];
+          var u = calc.presUnits[pres.id] || 0;
+          var m = calc.presMoney[pres.id] || 0;
+          presRows +=
+            '<tr>' +
+              '<td><strong>' + escHtml(pres.label) + '</strong></td>' +
+              '<td class="num" style="color:var(--text-secondary);">' + fmtMoney(pres.rate) + '</td>' +
+              '<td class="num">' + fmtInt(u) + '</td>' +
+              '<td class="num text-lime">' + fmtMoney(m) + '</td>' +
+            '</tr>';
+        }
+        dom.presBreakdownTbody.innerHTML = presRows;
+
+        dom.waPreview.textContent = buildWhatsAppText(calc);
+      }
+
+      function renderReceipt(calc) {
+        if (!receiptVisible) {
+          dom.receiptPanel.classList.remove('visible');
+          return;
+        }
+
+        var startStr = fmtDMY(state.startDate);
+        var endStr = fmtDMY(addDaysISO(state.startDate, 6));
+        var workerLabel = state.workerRef.trim() ? state.workerRef.trim() : 'No especificado';
+
+        dom.rcpPeriod.textContent = startStr + ' al ' + endStr + ' (Mié — Mar)';
+        dom.rcpWorker.textContent = workerLabel;
+        dom.rcpGeneratedAt.textContent = receiptGeneratedStamp || fmtNowStamp();
+
+        var linesHtml = '';
+        for (var d = 0; d < calc.days.length; d++) {
+          var day = calc.days[d];
+          var breakdownParts = [];
+          for (var p = 0; p < PRESENTATIONS.length; p++) {
+            var pres = PRESENTATIONS[p];
+            var q = day.cells[pres.id] ? day.cells[pres.id].qty : 0;
+            if (q > 0) breakdownParts.push(pres.label + ': ' + fmtInt(q));
+          }
+          var detailTxt = breakdownParts.length > 0
+            ? fmtInt(day.units) + ' pzas · ' + breakdownParts.join(', ')
+            : '0 piezas registradas';
+
+          linesHtml +=
+            '<div class="receipt-line">' +
+              '<div class="receipt-left">' +
+                '<span class="receipt-day">' + escHtml(day.fullDayDate) + '</span>' +
+                '<span class="receipt-sub">' + escHtml(detailTxt) + '</span>' +
+              '</div>' +
+              '<div class="receipt-right">' + fmtMXN(day.money) + '</div>' +
+            '</div>';
+        }
+
+        dom.rcpDaysList.innerHTML = linesHtml;
+        dom.rcpTotalUnitsLine.textContent = 'Total piezas empacadas en la semana: ' + fmtInt(calc.totalUnits);
+        dom.rcpGrandTotal.textContent = fmtMXN(calc.totalMoney);
+        dom.receiptPanel.classList.add('visible');
+      }
+
+      function renderAll() {
+        renderHeaderMeta();
+        var calc = calculateWeek();
+        renderMainStrip(calc);
+        renderSummaries(calc);
+        renderReceipt(calc);
+      }
+
+      /* =====================================================================
+         TEXTOS DE RECIBO Y WHATSAPP
+         ===================================================================== */
+      function buildReceiptText(calc) {
+        var startStr = fmtDMY(state.startDate);
+        var endStr = fmtDMY(addDaysISO(state.startDate, 6));
+        var workerLabel = state.workerRef.trim() ? state.workerRef.trim() : 'No especificado';
+
+        var lines = [
+          'RECIBO SEMANAL DE EMPAQUE - BELL PEPPER',
+          'Periodo: ' + startStr + ' al ' + endStr + ' (Mié - Mar)',
+          'Empacador/Ref: ' + workerLabel,
+          '----------------------------------------'
+        ];
+
+        for (var d = 0; d < calc.days.length; d++) {
+          var day = calc.days[d];
+          lines.push(day.fullDayDate + '  -->  ' + fmtMXN(day.money));
+        }
+
+        lines.push('----------------------------------------');
+        lines.push('Total piezas semana: ' + fmtInt(calc.totalUnits));
+        lines.push('TOTAL A GANAR AL FIN DE LA SEMANA: ' + fmtMXN(calc.totalMoney));
+        return lines.join('\n');
+      }
+
+      function buildWhatsAppText(calc) {
+        var startStr = fmtDMY(state.startDate);
+        var endStr = fmtDMY(addDaysISO(state.startDate, 6));
+        var out = [
+          '*CONTROL DE EMPAQUE SEMANAL - BELL PEPPER*',
+          'Semana (Mié a Mar): ' + startStr + ' al ' + endStr + ' (NORMAL)'
+        ];
+
+        if (state.workerRef.trim()) {
+          out.push('Empacador/Ref: *' + state.workerRef.trim() + '*');
+        }
+        out.push('');
+
+        for (var d = 0; d < calc.days.length; d++) {
+          var day = calc.days[d];
+          out.push('• *' + day.shortLabel + '*: ' + fmtMXN(day.money) + ' (Acum: ' + fmtMoney(day.cumulative) + ')');
+        }
+
+        out.push('');
+        out.push('Total piezas: *' + fmtInt(calc.totalUnits) + '*');
+        out.push('*TOTAL SEMANA ($): ' + fmtMXN(calc.totalMoney) + '*');
+        return out.join('\n');
+      }
+
+      function copyToClipboard(text) {
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          return navigator.clipboard.writeText(text).then(function () {
+            return true;
+          }).catch(function () {
+            return legacyCopy(text);
+          });
+        }
+        return Promise.resolve(legacyCopy(text));
+      }
+
+      function legacyCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try {
+          ok = document.execCommand('copy');
+        } catch (err) {
+          ok = false;
+        }
+        document.body.removeChild(ta);
+        return ok;
+      }
+
+      /* =====================================================================
+         EVENTOS
+         ===================================================================== */
+      dom.mainStripTbody.addEventListener('input', function (ev) {
+        var input = ev.target;
+        if (!input || !input.classList || !input.classList.contains('qty-box')) return;
+
+        var dayKey = input.getAttribute('data-day');
+        var presId = input.getAttribute('data-pres');
+        if (!dayKey || !presId || !state.quantities[dayKey]) return;
+
+        var raw = input.value;
+        var parsed = Number(raw);
+        var clean = raw === '' || !Number.isFinite(parsed) || parsed < 0
+          ? 0
+          : Math.round(parsed);
+
+        if (raw !== '' && (!Number.isFinite(parsed) || parsed < 0)) {
+          input.value = clean > 0 ? String(clean) : '';
+        }
+
+        state.quantities[dayKey][presId] = clean;
+        persistState();
+
+        var selStart = input.selectionStart;
+        var selEnd = input.selectionEnd;
+
+        var calc = calculateWeek();
+        renderMainStrip(calc);
+        renderSummaries(calc);
+        if (receiptVisible) {
+          renderReceipt(calc);
+        }
+
+        var selector = 'input.qty-box[data-day="' + escapeAttr(dayKey) + '"][data-pres="' + escapeAttr(presId) + '"]';
+        var nextInput = dom.mainStripTbody.querySelector(selector);
+        if (nextInput && document.activeElement !== nextInput) {
+          nextInput.focus();
+          try {
+            if (typeof selStart === 'number' && typeof selEnd === 'number') {
+              nextInput.setSelectionRange(selStart, selEnd);
+            }
+          } catch (err) {
+            // Ignorado en inputs numéricos móviles donde no aplica selección de rango
+          }
+        }
+      });
+
+      dom.weekStartDate.addEventListener('change', function () {
+        if (!dom.weekStartDate.value || !fromISO(dom.weekStartDate.value)) return;
+        state.startDate = dom.weekStartDate.value;
+        persistState();
+        renderAll();
+        showBanner('Fecha de inicio actualizada al ' + fmtDMY(state.startDate) + '.', 'info');
+      });
+
+      dom.workerRefInput.addEventListener('input', function () {
+        state.workerRef = dom.workerRefInput.value.slice(0, 80);
+        persistState();
+        var calc = calculateWeek();
+        dom.waPreview.textContent = buildWhatsAppText(calc);
+        if (receiptVisible) {
+          renderReceipt(calc);
+        }
+      });
+
+      dom.generateReceiptBtn.addEventListener('click', function () {
+        receiptVisible = true;
+        receiptGeneratedStamp = fmtNowStamp();
+        var calc = calculateWeek();
+        renderReceipt(calc);
+        dom.receiptPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        showBanner('Recibo semanal generado con los importes diarios y el total de la semana.', 'ok');
+      });
+
+      dom.hideReceiptBtn.addEventListener('click', function () {
+        receiptVisible = false;
+        renderReceipt(calculateWeek());
+      });
+
+      dom.copyReceiptBtn.addEventListener('click', function () {
+        var txt = buildReceiptText(calculateWeek());
+        copyToClipboard(txt).then(function (ok) {
+          showBanner(
+            ok ? 'Recibo semanal copiado al portapapeles.' : 'No se pudo copiar automáticamente el recibo.',
+            ok ? 'ok' : 'err'
+          );
+        });
+      });
+
+      dom.printReceiptBtn.addEventListener('click', function () {
+        receiptVisible = true;
+        if (!receiptGeneratedStamp) receiptGeneratedStamp = fmtNowStamp();
+        renderReceipt(calculateWeek());
+        window.print();
+      });
+
+      dom.copyWaBtn.addEventListener('click', function () {
+        var txt = buildWhatsAppText(calculateWeek());
+        copyToClipboard(txt).then(function (ok) {
+          showBanner(
+            ok ? 'Resumen copiado listo para WhatsApp.' : 'No se pudo copiar automáticamente.',
+            ok ? 'ok' : 'err'
+          );
+        });
+      });
+
+      dom.exportJsonBtn.addEventListener('click', function () {
+        try {
+          var payload = JSON.stringify({
+            app: 'Control de Empaque Semanal - Bell Pepper',
+            startDate: state.startDate,
+            workerRef: state.workerRef,
+            quantities: state.quantities
+          }, null, 2);
+
+          var blob = new Blob([payload], { type: 'application/json' });
+          var url = URL.createObjectURL(blob);
+          var link = document.createElement('a');
+          link.href = url;
+          link.download = 'bell-pepper-semana-' + state.startDate + '.json';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.setTimeout(function () {
+            URL.revokeObjectURL(url);
+          }, 500);
+          showBanner('Archivo JSON guardado correctamente.', 'ok');
+        } catch (err) {
+          showBanner('No se pudo exportar el archivo JSON.', 'err');
+        }
+      });
+
+      dom.importJsonBtn.addEventListener('click', function () {
+        dom.importJsonInput.value = '';
+        dom.importJsonInput.click();
+      });
+
+      dom.importJsonInput.addEventListener('change', function (ev) {
+        var file = ev.target && ev.target.files ? ev.target.files[0] : null;
+        if (!file) return;
+
+        var reader = new FileReader();
+        reader.onload = function () {
+          try {
+            var parsed = JSON.parse(String(reader.result || ''));
+            state = normalizeState(parsed);
+            persistState();
+            renderAll();
+            showBanner('Respaldo JSON cargado con éxito.', 'ok');
+          } catch (err) {
+            showBanner('El archivo seleccionado no contiene un JSON válido.', 'err');
+          }
+        };
+        reader.onerror = function () {
+          showBanner('Error al leer el archivo JSON.', 'err');
+        };
+        reader.readAsText(file);
+      });
+
+      dom.resetBtn.addEventListener('click', function () {
+        dom.resetModal.classList.add('open');
+      });
+
+      dom.cancelResetBtn.addEventListener('click', function () {
+        dom.resetModal.classList.remove('open');
+      });
+
+      dom.resetModal.addEventListener('click', function (ev) {
+        if (ev.target === dom.resetModal) {
+          dom.resetModal.classList.remove('open');
+        }
+      });
+
+      dom.confirmResetBtn.addEventListener('click', function () {
+        state.quantities = createEmptyQuantities();
+        persistState();
+        renderAll();
+        dom.resetModal.classList.remove('open');
+        showBanner('Cantidades de la semana reiniciadas a cero.', 'info');
+      });
+
+      dom.closeBannerBtn.addEventListener('click', function () {
+        dom.statusBanner.classList.remove('show');
+      });
+
+      /* =====================================================================
+         ARRanque
+         ===================================================================== */
+      restoreState();
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
+```
